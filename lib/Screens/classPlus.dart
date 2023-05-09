@@ -1,7 +1,7 @@
 import 'package:ea9/Components/back_button.dart';
 import 'package:ea9/Components/input_box.dart';
 import 'package:ea9/Components/next_button.dart';
-import 'package:ea9/Screens/signup2.dart';
+import 'package:ea9/Screens/Professor/proSignup2.dart';
 import 'package:flutter/material.dart';
 
 class classPlus extends StatelessWidget {
@@ -43,7 +43,7 @@ class classPlus extends StatelessWidget {
                             context,
                             MaterialPageRoute(
                               builder: (context) {
-                                return Signup2();
+                                return proSignup2();
                               },
                             ),
                           );

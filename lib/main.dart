@@ -1,4 +1,5 @@
-import 'package:ea9/Screens/signup1.dart';
+import 'package:ea9/Screens/Professor/proSignup1.dart';
+import 'package:ea9/Screens/Student/studentSignup1.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -42,7 +43,16 @@ class First extends StatelessWidget {
                   width: 300,
                   height: 120,
                   child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) {
+                              return proSignup1();
+                            },
+                          ),
+                        );
+                      },
                       style: ElevatedButton.styleFrom(
                           backgroundColor: Color(0xffC7C0CE)),
                       child: Row(
@@ -64,7 +74,7 @@ class First extends StatelessWidget {
                           context,
                           MaterialPageRoute(
                             builder: (context) {
-                              return Signup1();
+                              return studentSignup1();
                             },
                           ),
                         );

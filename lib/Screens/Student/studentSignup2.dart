@@ -4,7 +4,7 @@ import 'package:ea9/Screens/classList.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class Signup2 extends StatelessWidget {
+class studentSignup2 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
