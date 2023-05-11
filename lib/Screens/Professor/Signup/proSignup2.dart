@@ -1,6 +1,6 @@
 import 'package:ea9gu/Components/back_button.dart';
 import 'package:ea9gu/Components/next_button.dart';
-import 'package:ea9gu/Screens/Professor/classList.dart';
+import 'package:ea9gu/Screens/Professor/Login/prof_login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -55,13 +55,13 @@ class proSignup2 extends StatelessWidget {
                 )),
                 SizedBox(height: 20),
                 NextButton(
-                    text: "인증하고 계속하기",
+                    text: "인증하여 계정 생성하기",
                     onpress: () {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder: (context) {
-                            return ClassList();
+                            return Login();
                           },
                         ),
                       );

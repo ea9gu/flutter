@@ -40,7 +40,18 @@ class Body extends StatelessWidget {
             onChanged: (value) {},
           ),
           SizedBox(height: size.height * 0.2),
-          GoButton(text: "계정 생성하기", onpress: () {}),
+          GoButton(
+              text: "계정 생성하기",
+              onpress: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return Login();
+                    },
+                  ),
+                );
+              }),
           SizedBox(height: size.height * 0.03),
           AccountCheck(
             login: false,

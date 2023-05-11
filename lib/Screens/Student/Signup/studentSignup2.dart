@@ -1,6 +1,6 @@
 import 'package:ea9gu/Components/back_button.dart';
 import 'package:ea9gu/Components/next_button.dart';
-import 'package:ea9gu/Screens/Professor/classList.dart';
+import 'package:ea9gu/Screens/Student/Signup/Signup3/signup3.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -61,7 +61,7 @@ class studentSignup2 extends StatelessWidget {
                         context,
                         MaterialPageRoute(
                           builder: (context) {
-                            return ClassList();
+                            return Signup3();
                           },
                         ),
                       );

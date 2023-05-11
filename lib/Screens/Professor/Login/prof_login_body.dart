@@ -5,7 +5,8 @@ import 'package:ea9gu/Components/inputfield.dart';
 import 'package:ea9gu/Components/passwordfield.dart';
 import 'package:ea9gu/Screens/Find/prof_findid.dart';
 import 'package:ea9gu/Screens/Find/prof_findpassword.dart';
-import 'package:ea9gu/Screens/Student/Signup/Signup3/signup3.dart';
+import 'package:ea9gu/Screens/Professor/Signup/ProSignup1.dart';
+import 'package:ea9gu/Screens/Professor/classList.dart';
 import 'package:flutter/material.dart';
 
 class Body extends StatelessWidget {
@@ -94,7 +95,18 @@ class Body extends StatelessWidget {
                 ],
               ),
               SizedBox(height: size.height * 0.2),
-              GoButton(text: "로그인하기", onpress: () {}),
+              GoButton(
+                  text: "로그인하기",
+                  onpress: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) {
+                          return ClassList();
+                        },
+                      ),
+                    );
+                  }),
               SizedBox(height: size.height * 0.03),
               AccountCheck(
                 onpress: () {
@@ -102,7 +114,7 @@ class Body extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                       builder: (context) {
-                        return Signup3();
+                        return ProSignup1();
                       },
                     ),
                   );
