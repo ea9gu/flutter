@@ -25,6 +25,7 @@ class _CheckState extends State<Check> with TickerProviderStateMixin {
         children: [
           SizedBox(height: size.height * 0.2),
           Container(
+            width: MediaQuery.of(context).size.width,
             child: DefaultTabController(
               length: 2,
               child: Padding(
@@ -32,10 +33,10 @@ class _CheckState extends State<Check> with TickerProviderStateMixin {
                 child: Column(
                   children: [
                     Container(
-                      // width: double.maxFinite,
+                      width: MediaQuery.of(context).size.width,
                       height: 60,
                       decoration: BoxDecoration(
-                          border: Border.all(color: mainColor, width: 3),
+                          border: Border.all(color: mainColor),
                           borderRadius: BorderRadius.circular(25)),
                       child: TabBar(
                         controller: _tabController,
@@ -44,9 +45,6 @@ class _CheckState extends State<Check> with TickerProviderStateMixin {
                           borderRadius: BorderRadius.circular(25),
                           color: mainColor,
                         ),
-                        isScrollable: true,
-                        labelPadding:
-                            const EdgeInsets.only(left: 20, right: 20),
                         tabs: [
                           Tab(text: "출석체크"),
                           Tab(text: "출석부"),
@@ -58,21 +56,22 @@ class _CheckState extends State<Check> with TickerProviderStateMixin {
               ),
             ),
           ),
+          SizedBox(height: 30),
           Expanded(
             child: TabBarView(controller: _tabController, children: [
               Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+                // mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Column(
                     children: [
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          SizedBox(width: 20),
+                          // SizedBox(width: 40),
                           Container(
-                            padding: EdgeInsets.only(left: 10, right: 10),
+                            padding: EdgeInsets.only(left: 20, right: 20),
                             decoration: BoxDecoration(
-                                border: Border.all(color: mainColor, width: 3),
+                                border: Border.all(color: mainColor, width: 2),
                                 borderRadius: BorderRadius.circular(25)),
                             child: DropdownButton(
                               hint: Text("출석 시간 설정"),
@@ -94,9 +93,9 @@ class _CheckState extends State<Check> with TickerProviderStateMixin {
                           ),
                           SizedBox(width: 30),
                           Container(
-                            padding: EdgeInsets.only(left: 10, right: 10),
+                            padding: EdgeInsets.only(left: 20, right: 20),
                             decoration: BoxDecoration(
-                                border: Border.all(color: mainColor, width: 3),
+                                border: Border.all(color: mainColor, width: 2),
                                 borderRadius: BorderRadius.circular(25)),
                             child: DropdownButton(
                               hint: Text("지각 허용 설정"),
