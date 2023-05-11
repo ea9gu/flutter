@@ -1,5 +1,5 @@
-import 'package:ea9gu/Screens/Start/prof_start.dart';
-import 'package:ea9gu/Screens/Start/stu_start.dart';
+import 'package:ea9gu/Screens/Professor/Start/prof_start.dart';
+import 'package:ea9gu/Screens/Student/Start/stu_start.dart';
 import 'package:flutter/material.dart';
 
 void main() {

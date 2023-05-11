@@ -1,6 +1,6 @@
 import 'package:ea9gu/Components/gobutton.dart';
-import 'package:ea9gu/Screens/Login/login_screen.dart';
-import 'package:ea9gu/Screens/Student/StudentSignup1.dart';
+import 'package:ea9gu/Screens/Professor/Login/prof_login_screen.dart';
+import 'package:ea9gu/Screens/Professor/Signup/ProSignup1.dart';
 import 'package:ea9gu/constants.dart';
 import 'package:flutter/material.dart';
 
@@ -15,11 +15,11 @@ class Body extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Image.asset(
-            "assets/images/student.png",
+            "assets/professor.png",
             height: size.height * 0.3,
           ),
           Text(
-            "학생용",
+            "교수용",
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
           SizedBox(height: size.height * 0.2),
@@ -53,7 +53,7 @@ class Body extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                     builder: (context) {
-                      return StudentSignup1();
+                      return ProSignup1();
                     },
                   ),
                 );
