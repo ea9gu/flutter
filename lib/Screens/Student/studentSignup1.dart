@@ -1,5 +1,6 @@
 import 'package:ea9gu/Components/back_button.dart';
 import 'package:ea9gu/Components/next_button.dart';
+import 'package:ea9gu/Screens/Login/login_screen.dart';
 import 'package:ea9gu/Screens/Student/studentSignup2.dart';
 import 'package:flutter/material.dart';
 import 'package:ea9gu/Components/validate.dart';
@@ -12,12 +13,12 @@ final InputDeco = InputDecoration(
         borderRadius: BorderRadius.circular(10.0),
         borderSide: BorderSide(width: 3, color: Color(0xff8685A6))));
 
-class studentSignup1 extends StatefulWidget {
+class StudentSignup1 extends StatefulWidget {
   @override
   _SignUpFormState createState() => _SignUpFormState();
 }
 
-class _SignUpFormState extends State<studentSignup1> {
+class _SignUpFormState extends State<StudentSignup1> {
   final _formKey = GlobalKey<FormState>();
   String name = '';
   int? id;
@@ -132,7 +133,16 @@ class _SignUpFormState extends State<studentSignup1> {
                   children: [
                     Text("Already have an account?"),
                     TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return Login();
+                              },
+                            ),
+                          );
+                        },
                         child: Text(
                           "Login",
                           style: TextStyle(fontWeight: FontWeight.bold),

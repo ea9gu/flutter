@@ -1,5 +1,5 @@
-import 'package:ea9gu/Screens/Professor/proSignup1.dart';
-import 'package:ea9gu/Screens/Student/studentSignup1.dart';
+import 'package:ea9gu/Screens/Start/prof_start.dart';
+import 'package:ea9gu/Screens/Start/stu_start.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -48,7 +48,7 @@ class First extends StatelessWidget {
                           context,
                           MaterialPageRoute(
                             builder: (context) {
-                              return proSignup1();
+                              return ProfStart();
                             },
                           ),
                         );
@@ -74,7 +74,7 @@ class First extends StatelessWidget {
                           context,
                           MaterialPageRoute(
                             builder: (context) {
-                              return studentSignup1();
+                              return StuStart();
                             },
                           ),
                         );

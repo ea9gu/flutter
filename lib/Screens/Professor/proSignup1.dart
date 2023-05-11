@@ -12,12 +12,12 @@ final InputDeco = InputDecoration(
         borderRadius: BorderRadius.circular(10.0),
         borderSide: BorderSide(width: 3, color: Color(0xff8685A6))));
 
-class proSignup1 extends StatefulWidget {
+class ProSignup1 extends StatefulWidget {
   @override
   SignUpFormState createState() => SignUpFormState();
 }
 
-class SignUpFormState extends State<proSignup1> {
+class SignUpFormState extends State<ProSignup1> {
   final _formKey = GlobalKey<FormState>();
   String name = '';
   int? id;

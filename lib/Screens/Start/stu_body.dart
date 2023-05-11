@@ -1,5 +1,6 @@
 import 'package:ea9gu/Components/gobutton.dart';
 import 'package:ea9gu/Screens/Login/login_screen.dart';
+import 'package:ea9gu/Screens/Student/StudentSignup1.dart';
 import 'package:ea9gu/constants.dart';
 import 'package:flutter/material.dart';
 
@@ -47,7 +48,16 @@ class Body extends StatelessWidget {
                 ),
                 primary: Colors.black,
               ),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return StudentSignup1();
+                    },
+                  ),
+                );
+              },
               child: Text("회원가입하기"),
             ),
           )
