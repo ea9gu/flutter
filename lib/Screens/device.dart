@@ -1,8 +1,8 @@
-import 'package:ea9/Components/back_button.dart';
-import 'package:ea9/Components/input_box.dart';
-import 'package:ea9/Components/next_button.dart';
-import 'package:ea9/Screens/Professor/proSignup2.dart';
-import 'package:ea9/device_info.dart';
+import 'package:ea9gu/Components/back_button.dart';
+import 'package:ea9gu/Components/input_box.dart';
+import 'package:ea9gu/Components/next_button.dart';
+import 'package:ea9gu/Screens/Professor/proSignup2.dart';
+import 'package:ea9gu/device_info.dart';
 import 'package:flutter/material.dart';
 
 class Device extends StatefulWidget {

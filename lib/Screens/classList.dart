@@ -1,5 +1,5 @@
-import 'package:ea9/Components/back_button.dart';
-import 'package:ea9/Screens/classPlus.dart';
+import 'package:ea9gu/Components/back_button.dart';
+import 'package:ea9gu/Screens/classPlus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 

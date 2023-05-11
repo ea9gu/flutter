@@ -1,7 +1,7 @@
-import 'package:ea9/Components/back_button.dart';
-import 'package:ea9/Components/input_box.dart';
-import 'package:ea9/Components/next_button.dart';
-import 'package:ea9/Screens/device.dart';
+import 'package:ea9gu/Components/back_button.dart';
+import 'package:ea9gu/Components/input_box.dart';
+import 'package:ea9gu/Components/next_button.dart';
+import 'package:ea9gu/Screens/device.dart';
 import 'package:flutter/material.dart';
 
 class classPlus extends StatelessWidget {

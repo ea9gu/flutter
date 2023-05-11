@@ -1,8 +1,8 @@
-import 'package:ea9/Components/back_button.dart';
-import 'package:ea9/Components/next_button.dart';
-import 'package:ea9/Screens/Student/studentSignup2.dart';
+import 'package:ea9gu/Components/back_button.dart';
+import 'package:ea9gu/Components/next_button.dart';
+import 'package:ea9gu/Screens/Student/studentSignup2.dart';
 import 'package:flutter/material.dart';
-import 'package:ea9/Components/validate.dart';
+import 'package:ea9gu/Components/validate.dart';
 
 final InputDeco = InputDecoration(
     enabledBorder: OutlineInputBorder(

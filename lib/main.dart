@@ -1,5 +1,5 @@
-import 'package:ea9/Screens/Professor/proSignup1.dart';
-import 'package:ea9/Screens/Student/studentSignup1.dart';
+import 'package:ea9gu/Screens/Professor/proSignup1.dart';
+import 'package:ea9gu/Screens/Student/studentSignup1.dart';
 import 'package:flutter/material.dart';
 
 void main() {
