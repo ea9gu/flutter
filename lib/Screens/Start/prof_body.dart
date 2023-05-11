@@ -1,6 +1,7 @@
 import 'package:ea9gu/Components/gobutton.dart';
 //임시로 추가-나중에 삭제필요
 import 'package:ea9gu/Screens/Check/prof_check.dart';
+import 'package:ea9gu/Screens/Check/stu_check.dart';
 //여기까지
 import 'package:ea9gu/Screens/Login/login_screen.dart';
 import 'package:ea9gu/constants.dart';
@@ -27,13 +28,26 @@ class Body extends StatelessWidget {
           SizedBox(height: size.height * 0.2),
           //임시니까 나중에 삭제하기
           GoButton(
-            text: "출석체크하기",
+            text: "교수출첵",
             onpress: () {
               Navigator.push(
                 context,
                 MaterialPageRoute(
                   builder: (context) {
                     return Check();
+                  },
+                ),
+              );
+            },
+          ),
+          GoButton(
+            text: "학생출첵",
+            onpress: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) {
+                    return StuCheck();
                   },
                 ),
               );
