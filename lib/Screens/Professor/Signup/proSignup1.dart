@@ -1,7 +1,6 @@
 import 'package:ea9gu/Components/back_button.dart';
 import 'package:ea9gu/Components/next_button.dart';
-import 'package:ea9gu/Screens/Login/login_screen.dart';
-import 'package:ea9gu/Screens/Student/studentSignup2.dart';
+import 'package:ea9gu/Screens/Professor/Signup/proSignup2.dart';
 import 'package:flutter/material.dart';
 import 'package:ea9gu/Components/validate.dart';
 
@@ -13,12 +12,12 @@ final InputDeco = InputDecoration(
         borderRadius: BorderRadius.circular(10.0),
         borderSide: BorderSide(width: 3, color: Color(0xff8685A6))));
 
-class StudentSignup1 extends StatefulWidget {
+class ProSignup1 extends StatefulWidget {
   @override
-  _SignUpFormState createState() => _SignUpFormState();
+  SignUpFormState createState() => SignUpFormState();
 }
 
-class _SignUpFormState extends State<StudentSignup1> {
+class SignUpFormState extends State<ProSignup1> {
   final _formKey = GlobalKey<FormState>();
   String name = '';
   int? id;
@@ -48,7 +47,7 @@ class _SignUpFormState extends State<StudentSignup1> {
               SizedBox(
                 height: 80,
               ),
-              Text('학생 회원가입',
+              Text('회원가입하기',
                   style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
               SizedBox(height: 15),
               Center(
@@ -121,7 +120,7 @@ class _SignUpFormState extends State<StudentSignup1> {
                           context,
                           MaterialPageRoute(
                             builder: (context) {
-                              return studentSignup2();
+                              return proSignup2();
                             },
                           ),
                         );
@@ -133,16 +132,7 @@ class _SignUpFormState extends State<StudentSignup1> {
                   children: [
                     Text("Already have an account?"),
                     TextButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) {
-                                return Login();
-                              },
-                            ),
-                          );
-                        },
+                        onPressed: () {},
                         child: Text(
                           "Login",
                           style: TextStyle(fontWeight: FontWeight.bold),

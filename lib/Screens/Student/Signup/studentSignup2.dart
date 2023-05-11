@@ -1,10 +1,10 @@
 import 'package:ea9gu/Components/back_button.dart';
 import 'package:ea9gu/Components/next_button.dart';
-import 'package:ea9gu/Screens/classList.dart';
+import 'package:ea9gu/Screens/Professor/classList.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class proSignup2 extends StatelessWidget {
+class studentSignup2 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

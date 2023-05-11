@@ -18,10 +18,6 @@ class PasswordField extends StatelessWidget {
       decoration: InputDecoration(
         hintText: "비밀번호",
         border: InputBorder.none,
-        suffixIcon: Icon(
-          Icons.visibility,
-          color: mainColor,
-        ),
       ),
     ));
   }

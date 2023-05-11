@@ -1,7 +1,7 @@
-import 'package:ea9gu/Screens/Signup/signup3_body.dart';
+import 'package:ea9gu/Screens/Professor/Start/prof_body.dart';
 import 'package:flutter/material.dart';
 
-class Signup3 extends StatelessWidget {
+class ProfStart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

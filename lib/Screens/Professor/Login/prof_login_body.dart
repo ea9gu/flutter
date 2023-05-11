@@ -5,7 +5,7 @@ import 'package:ea9gu/Components/inputfield.dart';
 import 'package:ea9gu/Components/passwordfield.dart';
 import 'package:ea9gu/Screens/Find/prof_findid.dart';
 import 'package:ea9gu/Screens/Find/prof_findpassword.dart';
-import 'package:ea9gu/Screens/Signup/signup3.dart';
+import 'package:ea9gu/Screens/Student/Signup/Signup3/signup3.dart';
 import 'package:flutter/material.dart';
 
 class Body extends StatelessWidget {
