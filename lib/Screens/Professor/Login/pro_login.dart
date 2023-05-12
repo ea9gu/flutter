@@ -6,7 +6,7 @@ import 'package:ea9gu/Components/passwordfield.dart';
 import 'package:ea9gu/Screens/Find/prof_findid.dart';
 import 'package:ea9gu/Screens/Find/prof_findpassword.dart';
 import 'package:ea9gu/Screens/Professor/Signup/ProSignup1.dart';
-import 'package:ea9gu/Screens/Professor/classList.dart';
+import 'package:ea9gu/Screens/Professor/prof_classList.dart';
 import 'package:flutter/material.dart';
 import 'package:ea9gu/Components/validate.dart';
 
@@ -54,12 +54,12 @@ class _LoginPageState extends State<Login> {
     final String id = idController.text.split('@')[0]; //이메일을 잘라서 id로 저장
     final String password = passwordController.text;
     print('ID: $id, Password: $password');
-    if (id == "12345" && password == "12345678") {
+    if (id == "1234567" && password == "12345678") {
       Navigator.push(
         context,
         MaterialPageRoute(
           builder: (context) {
-            return ClassList();
+            return ProclassList();
           },
         ),
       );

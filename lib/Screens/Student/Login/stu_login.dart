@@ -6,7 +6,7 @@ import 'package:ea9gu/Components/passwordfield.dart';
 import 'package:ea9gu/Screens/Find/prof_findid.dart';
 import 'package:ea9gu/Screens/Find/prof_findpassword.dart';
 import 'package:ea9gu/Screens/Student/Signup/studentSignup1.dart';
-import 'package:ea9gu/Screens/Professor/classList.dart';
+import 'package:ea9gu/Screens/Student/stu_classList.dart';
 import 'package:flutter/material.dart';
 import 'package:ea9gu/Components/validate.dart';
 
@@ -59,7 +59,7 @@ class _LoginPageState extends State<stuLogin> {
         context,
         MaterialPageRoute(
           builder: (context) {
-            return ClassList();
+            return StuclassList();
           },
         ),
       );
