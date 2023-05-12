@@ -1,7 +1,7 @@
-import 'package:ea9gu/Components/back_button.dart';
+import 'package:ea9gu/Components/accountcheck.dart';
 import 'package:ea9gu/Components/next_button.dart';
 import 'package:ea9gu/Components/input_form.dart';
-import 'package:ea9gu/Screens/Professor/Login/pro_login.dart';
+import 'package:ea9gu/Screens/Student/Login/stu_login.dart';
 import 'package:ea9gu/Screens/Student/Signup/studentSignup2.dart';
 import 'package:flutter/material.dart';
 import 'package:ea9gu/Components/validate.dart';
@@ -44,10 +44,6 @@ class SignUpFormState extends State<StudentSignup1> {
               Text('회원가입하기',
                   style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
               SizedBox(height: 15),
-              Center(
-                  child: Container(
-                      margin: EdgeInsets.all(25),
-                      child: Image.asset('assets/bar1.png'))),
               buildTextFormField(
                 hintText: "이름",
                 validator: (value) => Validate().validateName(value),
@@ -111,18 +107,19 @@ class SignUpFormState extends State<StudentSignup1> {
                       }
                     }),
                 SizedBox(height: 20),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text("Already have an account?"),
-                    TextButton(
-                        onPressed: () {},
-                        child: Text(
-                          "Login",
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ))
-                  ],
-                )
+                AccountCheck(
+                  login: false,
+                  onpress: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) {
+                          return stuLogin();
+                        },
+                      ),
+                    );
+                  },
+                ),
               ])
             ],
           ),

@@ -1,4 +1,3 @@
-import 'package:ea9gu/Components/back_button.dart';
 import 'package:ea9gu/Components/next_button.dart';
 import 'package:ea9gu/Screens/Professor/Login/pro_login.dart';
 import 'package:flutter/material.dart';
@@ -17,13 +16,7 @@ class proSignup2 extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                SizedBox(height: 30),
-                BackButton1(),
-                SizedBox(height: 30),
-                Center(
-                    child: Container(
-                        margin: EdgeInsets.all(25),
-                        child: Image.asset('assets/bar2.png'))),
+                SizedBox(height: 100),
                 Container(width: 200, child: Image.asset('assets/phone.png')),
                 SizedBox(
                   height: 30,
