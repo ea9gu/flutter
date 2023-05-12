@@ -1,16 +1,9 @@
 import 'package:ea9gu/Components/back_button.dart';
+import 'package:ea9gu/Components/input_form.dart';
 import 'package:ea9gu/Components/next_button.dart';
 import 'package:ea9gu/Screens/Professor/Signup/proSignup2.dart';
 import 'package:flutter/material.dart';
 import 'package:ea9gu/Components/validate.dart';
-
-final InputDeco = InputDecoration(
-    enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(10.0),
-        borderSide: BorderSide(width: 3, color: Color(0xff8685A6))),
-    focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(10.0),
-        borderSide: BorderSide(width: 3, color: Color(0xff8685A6))));
 
 class ProSignup1 extends StatefulWidget {
   @override
@@ -54,50 +47,32 @@ class SignUpFormState extends State<ProSignup1> {
                   child: Container(
                       margin: EdgeInsets.all(25),
                       child: Image.asset('assets/bar1.png'))),
-              Text("이름"), //이름
-              SizedBox(height: 5),
-              TextFormField(
-                decoration: InputDeco,
+              buildTextFormField(
+                hintText: "이름",
                 validator: (value) => Validate().validateName(value),
                 onSaved: (value) {
                   name = value!;
                 },
               ),
               SizedBox(height: 15),
-              Text("학번"), //학번
-              SizedBox(height: 5),
-              TextFormField(
-                decoration: InputDeco,
-                validator: (value) => Validate().validateId(value),
-                onSaved: (value) {
-                  id = int.parse(value!);
-                },
-              ),
-              SizedBox(height: 15),
-              Text("비밀번호"), //비밀번호
-              SizedBox(height: 5),
-              TextFormField(
+              buildTextFormField(
                 controller: password_controller,
-                decoration: InputDeco,
+                hintText: "비밀번호",
                 validator: (value) => Validate().validatePassword(value),
-                obscureText: false,
+                obscureText: true,
               ),
               SizedBox(height: 15),
-              Text("비밀번호 확인"), //비밀번호 확인
-              SizedBox(height: 5),
-              TextFormField(
-                decoration: InputDeco,
+              buildTextFormField(
+                hintText: "비밀번호 확인",
                 validator: validateConfirmPassword,
-                obscureText: false,
+                obscureText: true,
                 onSaved: (value) {
                   password_confirm = value!;
                 },
               ),
               SizedBox(height: 15),
-              Text("이메일"), //이메일
-              SizedBox(height: 5),
-              TextFormField(
-                decoration: InputDeco,
+              buildTextFormField(
+                hintText: "이메일",
                 validator: (value) => Validate().validateEmail(value),
                 onSaved: (value) {
                   email = value!;
@@ -112,6 +87,7 @@ class SignUpFormState extends State<ProSignup1> {
                         // 유효성 검사가 모두 통과된 경우 처리
                         _formKey.currentState!.save();
                         final password = password_controller.text;
+                        email = email.split('@')[0];
                         print('Name: $name');
                         print('Username: $id');
                         print('Password: $password');

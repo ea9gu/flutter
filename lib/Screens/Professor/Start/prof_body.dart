@@ -1,5 +1,5 @@
 import 'package:ea9gu/Components/gobutton.dart';
-import 'package:ea9gu/Screens/Professor/Login/prof_login_screen.dart';
+import 'package:ea9gu/Screens/Professor/Login/pro_login.dart';
 import 'package:ea9gu/Screens/Professor/Signup/ProSignup1.dart';
 import 'package:ea9gu/constants.dart';
 import 'package:flutter/material.dart';

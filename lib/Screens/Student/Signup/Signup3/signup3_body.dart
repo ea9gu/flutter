@@ -1,7 +1,7 @@
 import 'package:ea9gu/Components/accountcheck.dart';
 import 'package:ea9gu/Components/gobutton.dart';
 import 'package:ea9gu/Components/inputfield.dart';
-import 'package:ea9gu/Screens/Professor/Login/prof_login_screen.dart';
+import 'package:ea9gu/Screens/Professor/Login/pro_login.dart';
 import 'package:flutter/material.dart';
 
 class Body extends StatelessWidget {
