@@ -1,5 +1,5 @@
 import 'package:ea9gu/Components/gobutton.dart';
-import 'package:ea9gu/Screens/Student/Login/stu_login_screen.dart';
+import 'package:ea9gu/Screens/Student/Login/stu_login.dart';
 import 'package:ea9gu/Screens/Student/Signup/StudentSignup1.dart';
 import 'package:ea9gu/constants.dart';
 import 'package:flutter/material.dart';
@@ -30,7 +30,7 @@ class Body extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                   builder: (context) {
-                    return StuLogin();
+                    return stuLogin();
                   },
                 ),
               );

@@ -1,6 +1,6 @@
 import 'package:ea9gu/Components/back_button.dart';
 import 'package:ea9gu/Components/next_button.dart';
-import 'package:ea9gu/Screens/Professor/Login/prof_login_screen.dart';
+import 'package:ea9gu/Screens/Professor/Login/pro_login.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 

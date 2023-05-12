@@ -1,24 +1,17 @@
 import 'package:ea9gu/Components/back_button.dart';
 import 'package:ea9gu/Components/next_button.dart';
-import 'package:ea9gu/Screens/Professor/Login/prof_login_screen.dart';
+import 'package:ea9gu/Components/input_form.dart';
+import 'package:ea9gu/Screens/Professor/Login/pro_login.dart';
 import 'package:ea9gu/Screens/Student/Signup/studentSignup2.dart';
 import 'package:flutter/material.dart';
 import 'package:ea9gu/Components/validate.dart';
 
-final InputDeco = InputDecoration(
-    enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(10.0),
-        borderSide: BorderSide(width: 3, color: Color(0xff8685A6))),
-    focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(10.0),
-        borderSide: BorderSide(width: 3, color: Color(0xff8685A6))));
-
 class StudentSignup1 extends StatefulWidget {
   @override
-  _SignUpFormState createState() => _SignUpFormState();
+  SignUpFormState createState() => SignUpFormState();
 }
 
-class _SignUpFormState extends State<StudentSignup1> {
+class SignUpFormState extends State<StudentSignup1> {
   final _formKey = GlobalKey<FormState>();
   String name = '';
   int? id;
@@ -48,57 +41,47 @@ class _SignUpFormState extends State<StudentSignup1> {
               SizedBox(
                 height: 80,
               ),
-              Text('학생 회원가입',
+              Text('회원가입하기',
                   style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
               SizedBox(height: 15),
               Center(
                   child: Container(
                       margin: EdgeInsets.all(25),
                       child: Image.asset('assets/bar1.png'))),
-              Text("이름"), //이름
-              SizedBox(height: 5),
-              TextFormField(
-                decoration: InputDeco,
+              buildTextFormField(
+                hintText: "이름",
                 validator: (value) => Validate().validateName(value),
                 onSaved: (value) {
                   name = value!;
                 },
               ),
               SizedBox(height: 15),
-              Text("학번"), //학번
-              SizedBox(height: 5),
-              TextFormField(
-                decoration: InputDeco,
+              buildTextFormField(
+                hintText: "학번",
                 validator: (value) => Validate().validateId(value),
                 onSaved: (value) {
                   id = int.parse(value!);
                 },
               ),
               SizedBox(height: 15),
-              Text("비밀번호"), //비밀번호
-              SizedBox(height: 5),
-              TextFormField(
+              buildTextFormField(
                 controller: password_controller,
-                decoration: InputDeco,
+                hintText: "비밀번호",
                 validator: (value) => Validate().validatePassword(value),
-                obscureText: false,
+                obscureText: true,
               ),
               SizedBox(height: 15),
-              Text("비밀번호 확인"), //비밀번호 확인
-              SizedBox(height: 5),
-              TextFormField(
-                decoration: InputDeco,
+              buildTextFormField(
+                hintText: "비밀번호 확인",
                 validator: validateConfirmPassword,
-                obscureText: false,
+                obscureText: true,
                 onSaved: (value) {
                   password_confirm = value!;
                 },
               ),
               SizedBox(height: 15),
-              Text("이메일"), //이메일
-              SizedBox(height: 5),
-              TextFormField(
-                decoration: InputDeco,
+              buildTextFormField(
+                hintText: "이메일",
                 validator: (value) => Validate().validateEmail(value),
                 onSaved: (value) {
                   email = value!;
@@ -133,16 +116,7 @@ class _SignUpFormState extends State<StudentSignup1> {
                   children: [
                     Text("Already have an account?"),
                     TextButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) {
-                                return Login();
-                              },
-                            ),
-                          );
-                        },
+                        onPressed: () {},
                         child: Text(
                           "Login",
                           style: TextStyle(fontWeight: FontWeight.bold),
