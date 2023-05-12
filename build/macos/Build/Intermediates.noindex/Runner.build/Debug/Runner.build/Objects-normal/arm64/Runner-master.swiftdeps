@@ -1,0 +1,8 @@
+version: "Apple Swift version 5.7.1 (swiftlang-5.7.1.135.3 clang-1400.0.29.51)"
+options: "0679620288e69a58c54be720a4b8cd0601e3de3b7e066f6e546d533fb8456d21"
+build_start_time: [1676475141, 570078849]
+build_end_time: [1676475142, 832180976]
+inputs:
+  "/Users/kimjuyeon/Desktop/\u1100\u1175\u11B7\u110C\u116E\u110B\u1167\u11AB/dev/ea9gu/macos/Flutter/GeneratedPluginRegistrant.swift": [1676475135, 927820920]
+  "/Users/kimjuyeon/Desktop/\u1100\u1175\u11B7\u110C\u116E\u110B\u1167\u11AB/dev/ea9gu/macos/Runner/AppDelegate.swift": [1668016546, 0]
+  "/Users/kimjuyeon/Desktop/\u1100\u1175\u11B7\u110C\u116E\u110B\u1167\u11AB/dev/ea9gu/macos/Runner/MainFlutterWindow.swift": [1668016546, 0]
