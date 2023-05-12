@@ -5,7 +5,7 @@ import 'package:ea9gu/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class ProclassList extends StatelessWidget {
+class StuclassList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -44,7 +44,7 @@ class ProclassList extends StatelessWidget {
                         context,
                         MaterialPageRoute(
                           builder: (context) {
-                            return StuCheck();
+                            return StuCheck(buttonText: "캡스톤디자인과창업프로젝트B");
                           },
                         ),
                       );

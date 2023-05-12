@@ -5,8 +5,8 @@ import 'package:ea9gu/Components/inputfield.dart';
 import 'package:ea9gu/Components/passwordfield.dart';
 import 'package:ea9gu/Screens/Find/prof_findid.dart';
 import 'package:ea9gu/Screens/Find/prof_findpassword.dart';
-import 'package:ea9gu/Screens/Professor/prof_classList.dart';
 import 'package:ea9gu/Screens/Student/Signup/StudentSignup1.dart';
+import 'package:ea9gu/Screens/Student/stu_classList.dart';
 import 'package:flutter/material.dart';
 
 class Body extends StatelessWidget {
@@ -102,7 +102,7 @@ class Body extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                         builder: (context) {
-                          return ProclassList();
+                          return StuclassList();
                         },
                       ),
                     );
