@@ -36,18 +36,7 @@ class classPlus extends StatelessWidget {
                   InputBox(text: "출석부 첨부"),
                   SizedBox(height: 50),
                   Column(children: [
-                    NextButton(
-                        text: "출석부 등록하기/업데이트하기",
-                        onpress: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) {
-                                return Device();
-                              },
-                            ),
-                          );
-                        }),
+                    NextButton(text: "출석부 등록하기/업데이트하기", onpress: () {}),
                   ])
                 ],
               ),

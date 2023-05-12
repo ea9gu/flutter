@@ -1,4 +1,5 @@
 import 'package:ea9gu/Components/back_button.dart';
+import 'package:ea9gu/Screens/Student/device.dart';
 import 'package:ea9gu/Screens/Student/stu_check.dart';
 import 'package:ea9gu/constants.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +17,16 @@ class ProclassList extends StatelessWidget {
           actions: [
             IconButton(
               icon: Icon(Icons.settings),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return Device();
+                    },
+                  ),
+                );
+              },
             )
           ],
         ),
