@@ -54,6 +54,7 @@ dev_dependencies:
 
 # The following section is specific to Flutter packages.
 flutter:
+  uses-material-design: true
   #이미지 등록
   assets:
     - assets/
