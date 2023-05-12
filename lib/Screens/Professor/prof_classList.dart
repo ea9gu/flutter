@@ -48,7 +48,7 @@ class ProclassList extends StatelessWidget {
                         context,
                         MaterialPageRoute(
                           builder: (context) {
-                            return Check();
+                            return Check(buttonText: "캡스톤디자인과창업프로젝트B");
                           },
                         ),
                       );

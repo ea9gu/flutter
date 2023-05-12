@@ -3,7 +3,8 @@ import 'package:ea9gu/constants.dart';
 import 'package:flutter/material.dart';
 
 class Check extends StatefulWidget {
-  const Check({Key? key}) : super(key: key);
+  Check({required this.buttonText, Key? key}) : super(key: key);
+  final String buttonText;
 
   @override
   State<Check> createState() => _CheckState();
@@ -21,9 +22,14 @@ class _CheckState extends State<Check> with TickerProviderStateMixin {
     Size size = MediaQuery.of(context).size;
     TabController _tabController = TabController(length: 2, vsync: this);
     return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.buttonText),
+        centerTitle: true,
+        backgroundColor: mainColor,
+      ),
       body: Column(
         children: [
-          SizedBox(height: size.height * 0.2),
+          SizedBox(height: size.height * 0.1),
           Container(
             width: MediaQuery.of(context).size.width,
             child: DefaultTabController(
