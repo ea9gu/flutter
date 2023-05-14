@@ -37,6 +37,8 @@ dependencies:
   flutter_svg: ^1.1.0
 
   device_info: ^2.0.3
+  http: ^0.13.3
+  flutter_sound: ^9.2.13
 
 dev_dependencies:
   flutter_test:
