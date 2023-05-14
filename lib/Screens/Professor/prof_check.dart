@@ -1,6 +1,8 @@
 import 'package:ea9gu/Components/gobutton.dart';
 import 'package:ea9gu/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class Check extends StatefulWidget {
   Check({required this.buttonText, Key? key}) : super(key: key);
@@ -16,6 +18,27 @@ class _CheckState extends State<Check> with TickerProviderStateMixin {
 
   String? selectedOptiontime;
   String? selectedOptionlate;
+
+  void proCheck() async {
+    var url = '/freq/generate-freq/';
+    var data = {
+      'optiontime': selectedOptiontime,
+      'optionlate': selectedOptionlate,
+      'course_id': widget.buttonText,
+    };
+
+    var response = await http.post(
+      Uri.parse(url),
+      body: jsonEncode(data),
+      headers: {'Content-Type': 'application/json'},
+    );
+
+    if (response.statusCode == 200) {
+      print('Data sent successfully');
+    } else {
+      print('Failed to send data');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -124,7 +147,7 @@ class _CheckState extends State<Check> with TickerProviderStateMixin {
                         ],
                       ),
                       SizedBox(height: size.height * 0.2),
-                      GoButton(text: "출석체크하기", onpress: () {}),
+                      GoButton(text: "출석체크하기", onpress: proCheck),
                     ],
                   ),
                 ],
