@@ -1,5 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:ea9gu/constants.dart';
+import 'dart:async';
+import 'dart:io';
+import 'package:flutter_sound/flutter_sound.dart';
+import 'package:http/http.dart' as http;
+import 'package:permission_handler/permission_handler.dart';
+import 'package:http_parser/http_parser.dart';
+// import 'package:path/path.dart' as path;
+// import 'package:path_provider/path_provider.dart';
 
 class StuCheck extends StatefulWidget {
   StuCheck({required this.buttonText, Key? key}) : super(key: key);
@@ -16,6 +24,58 @@ class _StuCheckState extends State<StuCheck> with TickerProviderStateMixin {
   Color checkButtonTextColor = Colors.white;
   Color boxBackgroundColor = Colors.white;
   Color boxTextColor = mainColor;
+  final _audioRecorder = FlutterSoundRecorder();
+
+  @override
+  void initState() {
+    super.initState();
+    _audioRecorder.openRecorder();
+  }
+
+  @override
+  void dispose() {
+    _audioRecorder.closeRecorder();
+    super.dispose();
+  }
+
+  Future<void> _initAudioRecorder() async {
+    final status = await Permission.microphone.request();
+    if (status != PermissionStatus.granted) {
+      throw RecordingPermissionException('permission denied');
+    }
+    await _audioRecorder.openRecorder();
+    _audioRecorder.setSubscriptionDuration(Duration(seconds: 3));
+  }
+
+  Future<void> _startRecording() async {
+    await _audioRecorder.startRecorder(toFile: 'audio_file');
+  }
+
+  Future<void> _stopRecording() async {
+    final path = await _audioRecorder.stopRecorder();
+    final audioFile = File(path!);
+    print('$audioFile');
+    await _sendAudioFile(audioFile);
+  }
+
+  Future<void> _sendAudioFile(File file) async {
+    final url = Uri.parse('http://localhost:8000/freq/save-attendance/');
+    final request = http.MultipartRequest('POST', url);
+    final fileBytes = await file.readAsBytes();
+    request.files.add(await http.MultipartFile.fromBytes(
+      'recording',
+      fileBytes,
+      filename: 'audio_file',
+      contentType: MediaType('audio', 'wav'),
+    ));
+    final response = await request.send();
+
+    if (response.statusCode == 200) {
+      print('Data sent successfully');
+    } else {
+      print('Failed to send data');
+    }
+  }
 
   void toggleCheckButton() {
     setState(() {
@@ -25,6 +85,10 @@ class _StuCheckState extends State<StuCheck> with TickerProviderStateMixin {
         checkButtonTextColor = Colors.white;
         boxBackgroundColor = mainColor;
         boxTextColor = Colors.white;
+        _startRecording();
+        Future.delayed(Duration(seconds: 3), () {
+          _stopRecording();
+        });
       }
     });
   }
