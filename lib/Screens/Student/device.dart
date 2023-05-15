@@ -1,9 +1,9 @@
-import 'package:ea9gu/Components/back_button.dart';
-import 'package:ea9gu/Components/input_box.dart';
+import 'package:ea9gu/Components/dialog.dart';
 import 'package:ea9gu/Components/next_button.dart';
-import 'package:ea9gu/Screens/Professor/Signup/proSignup2.dart';
 import 'package:ea9gu/device_info.dart';
 import 'package:flutter/material.dart';
+import 'dart:convert';
+import 'package:ea9gu/api/add_device.dart';
 
 class Device extends StatefulWidget {
   @override
@@ -22,6 +22,42 @@ class _DeviceScreenState extends State<Device> {
   Future<void> _getDeviceInfo() async {
     deviceInfo = await getDeviceInfo();
     setState(() {});
+  }
+
+  Future<void> registerDevice() async {
+    final deviceType = deviceInfo['device_type'];
+    final deviceSerial = deviceInfo['device_id'];
+
+    final response = await addDevice(deviceType!, deviceSerial!);
+
+    final responseData = jsonDecode(response.body);
+    final status = responseData['status'];
+
+    if (status == 'error') {
+      final message = responseData['message'];
+      if (message == '이미 등록된 디바이스입니다.') {
+        //print('이미 등록된 디바이스입니다.');
+        DialogFormat.customDialog(
+          context: context,
+          title: 'Error',
+          content: '이미 등록된 디바이스입니다.',
+        );
+      } else {
+        //print('기기 등록에 실패했습니다.');
+        DialogFormat.customDialog(
+          context: context,
+          title: 'Error',
+          content: '기기 등록에 실패했습니다.',
+        );
+      }
+    } else {
+      //print('기기 등록에 성공했습니다.');
+      DialogFormat.customDialog(
+        context: context,
+        title: 'Success',
+        content: '기기 등록에 성공했습니다.',
+      );
+    }
   }
 
   @override
@@ -57,6 +93,7 @@ class _DeviceScreenState extends State<Device> {
                       text: "기기등록",
                       onpress: () {
                         print(deviceInfo['device_id']);
+                        registerDevice();
                       }),
                   SizedBox(height: 15),
                   Container(
