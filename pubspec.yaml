@@ -39,6 +39,7 @@ dependencies:
   device_info: ^2.0.3
   http: ^0.13.3
   flutter_sound: ^9.2.13
+  file_picker: ^4.2.0
 
 dev_dependencies:
   flutter_test:
