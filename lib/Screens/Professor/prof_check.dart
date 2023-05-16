@@ -3,6 +3,7 @@ import 'package:ea9gu/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:audioplayers/audioplayers.dart';
 
 class Check extends StatefulWidget {
   Check({required this.buttonText, Key? key}) : super(key: key);
@@ -19,8 +20,10 @@ class _CheckState extends State<Check> with TickerProviderStateMixin {
   String? selectedOptiontime;
   String? selectedOptionlate;
 
+  final player = AudioPlayer();
+
   void proCheck() async {
-    var url = '/freq/generate-freq/';
+    var url = 'http://localhost:8000/freq/generate-freq/';
     var data = {
       'optiontime': selectedOptiontime,
       'optionlate': selectedOptionlate,
@@ -35,6 +38,13 @@ class _CheckState extends State<Check> with TickerProviderStateMixin {
 
     if (response.statusCode == 200) {
       print('Data sent successfully');
+      var fileLink = jsonDecode(response.body)['file_url'];
+      if (fileLink != null) {
+        print(response);
+        player.play(AssetSource('audio_20000.wav'));
+      } else {
+        print('Invalid file URL');
+      }
     } else {
       print('Failed to send data');
     }
