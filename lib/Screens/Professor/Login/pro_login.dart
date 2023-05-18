@@ -7,20 +7,21 @@ import 'package:ea9gu/Screens/Find/prof_findid.dart';
 import 'package:ea9gu/Screens/Find/prof_findpassword.dart';
 import 'package:ea9gu/Screens/Professor/Signup/ProSignup1.dart';
 import 'package:ea9gu/Screens/Professor/prof_classList.dart';
+import 'package:ea9gu/Screens/Student/Login/stu_login.dart';
 import 'package:flutter/material.dart';
 import 'package:ea9gu/Components/validate.dart';
 import 'package:ea9gu/Components/dialog.dart';
 import 'package:ea9gu/api/auth_signup.dart';
 import 'dart:convert';
 
-class Login extends StatefulWidget {
-  const Login({Key? key}) : super(key: key);
+class ProfLogin extends StatefulWidget {
+  const ProfLogin({Key? key}) : super(key: key);
 
   @override
   _LoginPageState createState() => _LoginPageState();
 }
 
-class _LoginPageState extends State<Login> {
+class _LoginPageState extends State<ProfLogin> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController idController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
@@ -65,14 +66,40 @@ class _LoginPageState extends State<Login> {
     print(responseData);
 
     if (status == "success") {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) {
-            return ProclassList(prof_id: id);
-          },
-        ),
-      );
+      if (responseData['flag'] == true) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) {
+              return ProclassList(prof_id: id);
+            },
+          ),
+        );
+      } else {
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: Text('로그인 실패'),
+            content: Text('잘못된 로그인 페이지입니다. 학생용 로그인은 학생 로그인 페이지에서 진행해주세요'),
+            actions: <Widget>[
+              TextButton(
+                child: Text('OK'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) {
+                        return stuLogin();
+                      },
+                    ),
+                  );
+                },
+              ),
+            ],
+          ),
+        );
+      }
     } else {
       // 인증 실패
       DialogFormat.customDialog(

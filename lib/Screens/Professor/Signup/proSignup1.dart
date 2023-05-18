@@ -52,7 +52,7 @@ class SignUpFormState extends State<ProSignup1> {
                     context,
                     MaterialPageRoute(
                       builder: (context) {
-                        return Login();
+                        return ProfLogin();
                       },
                     ),
                   );
@@ -153,7 +153,7 @@ class SignUpFormState extends State<ProSignup1> {
                       context,
                       MaterialPageRoute(
                         builder: (context) {
-                          return Login();
+                          return ProfLogin();
                         },
                       ),
                     );

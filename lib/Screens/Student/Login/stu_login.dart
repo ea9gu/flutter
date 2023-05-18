@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:ea9gu/Components/validate.dart';
 import 'package:ea9gu/Components/dialog.dart';
 import 'package:ea9gu/api/auth_signup.dart';
+import 'package:ea9gu/Screens/Professor/Login/pro_login.dart';
 import 'dart:convert';
 
 class stuLogin extends StatefulWidget {
@@ -45,14 +46,40 @@ class _LoginPageState extends State<stuLogin> {
     print(responseData);
 
     if (status == "success") {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) {
-            return StuclassList(student_id: id);
-          },
-        ),
-      );
+      if (responseData['flag'] == false) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) {
+              return StuclassList(student_id: id);
+            },
+          ),
+        );
+      } else {
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: Text('로그인 실패'),
+            content: Text('잘못된 로그인 페이지입니다. 교수용 로그인은 교수 로그인 페이지에서 진행해주세요'),
+            actions: <Widget>[
+              TextButton(
+                child: Text('OK'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) {
+                        return ProfLogin();
+                      },
+                    ),
+                  );
+                },
+              ),
+            ],
+          ),
+        );
+      }
     } else {
       // 인증 실패
       DialogFormat.customDialog(
