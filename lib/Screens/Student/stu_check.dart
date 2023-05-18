@@ -6,8 +6,7 @@ import 'package:flutter_sound/flutter_sound.dart';
 import 'package:http/http.dart' as http;
 import 'package:permission_handler/permission_handler.dart';
 import 'package:http_parser/http_parser.dart';
-// import 'package:path/path.dart' as path;
-// import 'package:path_provider/path_provider.dart';
+import 'dart:convert';
 
 class StuCheck extends StatefulWidget {
   StuCheck({required this.buttonText, Key? key}) : super(key: key);
@@ -20,15 +19,19 @@ class StuCheck extends StatefulWidget {
 class _StuCheckState extends State<StuCheck> with TickerProviderStateMixin {
   bool isCheckButtonEnabled = false;
   bool isCheckButtonPressed = false;
+  bool isAttendanceChecking = false;
   Color checkButtonBackgroundColor = darkColor;
   Color checkButtonTextColor = Colors.white;
   Color boxBackgroundColor = Colors.white;
   Color boxTextColor = mainColor;
   final _audioRecorder = FlutterSoundRecorder();
+  String boxText = '출석체크하기';
+  String stateText = '출석체크 중이 아닙니다';
 
   @override
   void initState() {
     super.initState();
+    checkAttendanceStatus();
     _audioRecorder.openRecorder();
   }
 
@@ -68,12 +71,55 @@ class _StuCheckState extends State<StuCheck> with TickerProviderStateMixin {
       filename: 'audio_file',
       contentType: MediaType('audio', 'wav'),
     ));
+    request.fields['student_id'] = 'stu_id'; // Replace with current user ID
+    request.fields['course_id'] = widget.buttonText;
+    request.fields['date'] = DateTime.now().toString();
     final response = await request.send();
 
     if (response.statusCode == 200) {
       print('Data sent successfully');
+      final responseData = await response.stream.bytesToString();
+      final parsedResponse = jsonDecode(responseData);
+      if (parsedResponse['status'] == 'error') {
+        //원래는 success로 고치기
+        setState(() {
+          isCheckButtonPressed = true;
+          boxBackgroundColor = mainColor;
+          boxTextColor = Colors.white;
+          boxText = '출석체크 완료';
+          print('status change successfully');
+        });
+      }
     } else {
       print('Failed to send data');
+    }
+  }
+
+  Future<void> checkAttendanceStatus() async {
+    final url2 = Uri.parse('http://localhost:8000/class/activate-signal/');
+    final request2 = http.MultipartRequest('POST', url2);
+    request2.fields['student_id'] = 'stu_id'; // Replace with current user ID
+    request2.fields['course_id'] = widget.buttonText;
+    final response2 = await request2.send();
+
+    if (response2.statusCode == 200) {
+      print('iconbutton Data sent successfully');
+      final responseData = await response2.stream.bytesToString();
+      final parsedResponse = jsonDecode(responseData);
+      print(parsedResponse);
+      if (parsedResponse['status'] == 'check') {
+        setState(() {
+          isAttendanceChecking = true;
+          stateText = '출석체크 중';
+        });
+      } else if (parsedResponse['status'] == 'bluecheck') {
+        setState(() {
+          isAttendanceChecking = false;
+          stateText = '출석체크 중이 아닙니다';
+        });
+      }
+    } else {
+      print('Failed to fetch attendance status');
     }
   }
 
@@ -83,11 +129,13 @@ class _StuCheckState extends State<StuCheck> with TickerProviderStateMixin {
         isCheckButtonPressed = true;
         checkButtonBackgroundColor = lightColor;
         checkButtonTextColor = Colors.white;
-        boxBackgroundColor = mainColor;
-        boxTextColor = Colors.white;
         _startRecording();
         Future.delayed(Duration(seconds: 3), () {
-          _stopRecording();
+          _stopRecording().then((_) {
+            setState(() {
+              stateText = '출석체크 완료';
+            });
+          });
         });
       }
     });
@@ -97,7 +145,6 @@ class _StuCheckState extends State<StuCheck> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     TabController _tabController = TabController(length: 2, vsync: this);
-    String boxText = isCheckButtonPressed ? '출석체크 완료' : '출석체크를 하세요';
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.buttonText),
@@ -119,8 +166,9 @@ class _StuCheckState extends State<StuCheck> with TickerProviderStateMixin {
                       width: MediaQuery.of(context).size.width,
                       height: 60,
                       decoration: BoxDecoration(
-                          border: Border.all(color: mainColor),
-                          borderRadius: BorderRadius.circular(25)),
+                        border: Border.all(color: mainColor),
+                        borderRadius: BorderRadius.circular(25),
+                      ),
                       child: TabBar(
                         controller: _tabController,
                         unselectedLabelColor: mainColor,
@@ -149,10 +197,13 @@ class _StuCheckState extends State<StuCheck> with TickerProviderStateMixin {
                     Align(
                       alignment: Alignment.center,
                       child: ElevatedButton(
-                        onPressed: isCheckButtonEnabled && !isCheckButtonPressed
+                        onPressed: isAttendanceChecking && !isCheckButtonPressed
                             ? () {
                                 setState(() {
                                   toggleCheckButton();
+                                  isCheckButtonEnabled = true;
+                                  checkButtonBackgroundColor = darkColor;
+                                  checkButtonTextColor = Colors.white;
                                 });
                               }
                             : null,
@@ -160,7 +211,9 @@ class _StuCheckState extends State<StuCheck> with TickerProviderStateMixin {
                           backgroundColor: checkButtonBackgroundColor,
                           primary: checkButtonTextColor,
                           padding: EdgeInsets.symmetric(
-                              horizontal: 30, vertical: 15),
+                            horizontal: 30,
+                            vertical: 15,
+                          ),
                         ),
                         child: Text(
                           isCheckButtonPressed ? '출석체크가 이미 완료되었습니다' : '출석체크하기',
@@ -175,15 +228,19 @@ class _StuCheckState extends State<StuCheck> with TickerProviderStateMixin {
                         child: IconButton(
                           onPressed: () {
                             setState(() {
-                              isCheckButtonEnabled = true;
-                              checkButtonBackgroundColor = darkColor;
-                              checkButtonTextColor = Colors.white;
+                              checkAttendanceStatus();
                             });
+                            print('iconbutton pressed');
                           },
                           icon: const Icon(Icons.autorenew),
                           iconSize: 30,
                         ),
                       ),
+                    ),
+                    SizedBox(height: 10),
+                    Text(
+                      stateText,
+                      style: TextStyle(color: mainColor),
                     ),
                     SizedBox(height: 80),
                     Container(
