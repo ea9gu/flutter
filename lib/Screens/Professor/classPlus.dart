@@ -10,6 +10,10 @@ import 'package:path/path.dart' as path;
 import 'package:http_parser/http_parser.dart';
 
 class classPlus extends StatefulWidget {
+  final Function(String) onDataReturned; // 데이터를 반환하기 위한 콜백 함수
+
+  classPlus({required this.onDataReturned});
+
   @override
   classPlusScreenState createState() => classPlusScreenState();
 }
@@ -22,10 +26,17 @@ class classPlusScreenState extends State<classPlus> {
   String course_name = ''; //강좌명
   final _formKey = GlobalKey<FormState>();
 
+  void _onButtonPressed() {
+    // 버튼을 누를 때 데이터를 콜백 함수를 통해 전달
+    String data = "컴파일러";
+    widget.onDataReturned(data);
+    Navigator.pop(context); // 이전 화면으로 돌아감
+  }
+
   Future<void> enrollStudents() async {
     _formKey.currentState!.save();
     final url = Uri.parse(
-        'http://localhost:8000/class/create-and-enroll/'); // Replace with your DRF server URL
+        'http://10.0.2.2:8000/class/create-and-enroll/'); // Replace with your DRF server URL
 
     try {
       var request = http.MultipartRequest('POST', url);
@@ -181,7 +192,7 @@ class classPlusScreenState extends State<classPlus> {
                   SizedBox(height: 50),
                   Column(children: [
                     NextButton(
-                        text: "출석부 등록하기/업데이트하기", onpress: enrollStudents),
+                        text: "출석부 등록하기/업데이트하기", onpress: _onButtonPressed),
                   ])
                 ],
               ),
