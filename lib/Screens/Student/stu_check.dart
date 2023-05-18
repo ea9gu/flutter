@@ -17,6 +17,7 @@ class StuCheck extends StatefulWidget {
 }
 
 class _StuCheckState extends State<StuCheck> with TickerProviderStateMixin {
+  bool flag = false; //임시 변수
   bool isCheckButtonEnabled = false;
   bool isCheckButtonPressed = false;
   bool isAttendanceChecking = false;
@@ -62,7 +63,7 @@ class _StuCheckState extends State<StuCheck> with TickerProviderStateMixin {
   }
 
   Future<void> _sendAudioFile(File file) async {
-    final url = Uri.parse('http://localhost:8000/freq/save-attendance/');
+    final url = Uri.parse('http://10.0.2.2:8000/freq/save-attendance/');
     final request = http.MultipartRequest('POST', url);
     final fileBytes = await file.readAsBytes();
     request.files.add(await http.MultipartFile.fromBytes(
@@ -96,7 +97,7 @@ class _StuCheckState extends State<StuCheck> with TickerProviderStateMixin {
   }
 
   Future<void> checkAttendanceStatus() async {
-    final url2 = Uri.parse('http://localhost:8000/class/activate-signal/');
+    final url2 = Uri.parse('http://10.0.2.2:8000/class/activate-signal/');
     final request2 = http.MultipartRequest('POST', url2);
     request2.fields['student_id'] = 'stu_id'; // Replace with current user ID
     request2.fields['course_id'] = widget.buttonText;
@@ -199,6 +200,7 @@ class _StuCheckState extends State<StuCheck> with TickerProviderStateMixin {
                       child: ElevatedButton(
                         onPressed: isAttendanceChecking && !isCheckButtonPressed
                             ? () {
+                                flag == false ? flag = true : flag = false;
                                 setState(() {
                                   toggleCheckButton();
                                   isCheckButtonEnabled = true;
@@ -270,12 +272,105 @@ class _StuCheckState extends State<StuCheck> with TickerProviderStateMixin {
                         ),
                       ),
                     ),
+                    flag == false ? AttendanceTable2() : AttendanceTable3()
                   ],
                 )
               ],
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class AttendanceTable2 extends StatelessWidget {
+  final List<String> dates = ['23.05.12', '23.05.16', '23.05.19'];
+  final List<String> attendances = ['출석', '출석', '결석'];
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: 24.0), // 행들 사이의 여백 설정
+      child: DataTable(
+        columns: const <DataColumn>[
+          DataColumn(
+            label: Text(
+              '날짜',
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+          ),
+          DataColumn(
+            label: Text(
+              '출결',
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+          ),
+        ],
+        rows: List<DataRow>.generate(dates.length, (index) {
+          return DataRow(
+            cells: <DataCell>[
+              DataCell(
+                Container(
+                  alignment: Alignment.center,
+                  child: Text(dates[index]),
+                ),
+              ),
+              DataCell(
+                Container(
+                  alignment: Alignment.center,
+                  child: Text(attendances[index]),
+                ),
+              ),
+            ],
+          );
+        }),
+      ),
+    );
+  }
+}
+
+class AttendanceTable3 extends StatelessWidget {
+  final List<String> dates = ['23.05.12', '23.05.16', '23.05.19'];
+  final List<String> attendances = ['출석', '출석', '출석'];
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: 24.0), // 행들 사이의 여백 설정
+      child: DataTable(
+        columns: const <DataColumn>[
+          DataColumn(
+            label: Text(
+              '날짜',
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+          ),
+          DataColumn(
+            label: Text(
+              '출결',
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+          ),
+        ],
+        rows: List<DataRow>.generate(dates.length, (index) {
+          return DataRow(
+            cells: <DataCell>[
+              DataCell(
+                Container(
+                  alignment: Alignment.center,
+                  child: Text(dates[index]),
+                ),
+              ),
+              DataCell(
+                Container(
+                  alignment: Alignment.center,
+                  child: Text(attendances[index]),
+                ),
+              ),
+            ],
+          );
+        }),
       ),
     );
   }
