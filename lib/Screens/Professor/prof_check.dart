@@ -16,6 +16,7 @@ class Check extends StatefulWidget {
 class _CheckState extends State<Check> with TickerProviderStateMixin {
   List<String> optiontime = ['5분', '10분', '15분'];
   List<String> optionlate = ['지각 O', '지각 X'];
+  bool flag = false;
 
   String? selectedOptiontime;
   String? selectedOptionlate;
@@ -99,14 +100,12 @@ class _CheckState extends State<Check> with TickerProviderStateMixin {
           Expanded(
             child: TabBarView(controller: _tabController, children: [
               Column(
-                // mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Column(
                     children: [
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          // SizedBox(width: 40),
                           Container(
                             padding: EdgeInsets.only(left: 20, right: 20),
                             decoration: BoxDecoration(
@@ -156,20 +155,179 @@ class _CheckState extends State<Check> with TickerProviderStateMixin {
                           ),
                         ],
                       ),
-                      SizedBox(height: size.height * 0.2),
-                      GoButton(text: "출석체크하기", onpress: proCheck),
+                      SizedBox(height: 100),
+                      GoButton(
+                          text: "출석체크하기",
+                          onpress: () {
+                            setState(() {
+                              flag == false ? flag = true : flag = false;
+                            });
+                            print(flag);
+                            proCheck();
+                          }),
                     ],
                   ),
+                  SizedBox(height: 20),
                 ],
               ),
               Column(
                 children: [
-                  GoButton(text: "임시", onpress: () {}),
+                  flag == false
+                      ? AttendanceTable()
+                      : AttendanceTable1() // flag 값에 따라 다른 위젯을 표시
                 ],
               )
             ]),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class AttendanceTable extends StatefulWidget {
+  @override
+  _AttendanceTableState createState() => _AttendanceTableState();
+}
+
+class _AttendanceTableState extends State<AttendanceTable> {
+  List<String> studentNumbers = ['2000000', '2000001', '2000002'];
+  List<String> studentNames = ['김이화', '박이화', '최이화'];
+  List<String> attendances = ['결석', '결석', '결석'];
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: 16.0), // 행들 사이의 여백 설정
+      child: DataTable(
+        columns: const <DataColumn>[
+          DataColumn(
+            label: Text(
+              '학번',
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+          ),
+          DataColumn(
+            label: Text(
+              '이름',
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+          ),
+          DataColumn(
+            label: Text(
+              '출결',
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+          ),
+        ],
+        rows: List<DataRow>.generate(studentNumbers.length, (index) {
+          return DataRow(
+            cells: <DataCell>[
+              DataCell(
+                Container(
+                  alignment: Alignment.center,
+                  child: Text(studentNumbers[index]),
+                ),
+              ),
+              DataCell(
+                Container(
+                  alignment: Alignment.center,
+                  child: Text(studentNames[index]),
+                ),
+              ),
+              DataCell(
+                DropdownButton<String>(
+                  value: attendances[index],
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      attendances[index] = newValue!;
+                    });
+                  },
+                  items: <String>['출석', '지각', '결석'].map((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
+                ),
+              ),
+            ],
+          );
+        }),
+      ),
+    );
+  }
+}
+
+class AttendanceTable1 extends StatefulWidget {
+  @override
+  _AttendanceTableState1 createState() => _AttendanceTableState1();
+}
+
+class _AttendanceTableState1 extends State<AttendanceTable1> {
+  List<String> studentNumbers = ['2000000', '2000001', '2000002'];
+  List<String> studentNames = ['김이화', '박이화', '최이화'];
+  List<String> attendances = ['출석', '결석', '결석']; // 김이화의 출결 상태를 기본값인 '출석'으로 변경
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: 16.0), // 행들 사이의 여백 설정
+      child: DataTable(
+        columns: const <DataColumn>[
+          DataColumn(
+            label: Text(
+              '학번',
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+          ),
+          DataColumn(
+            label: Text(
+              '이름',
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+          ),
+          DataColumn(
+            label: Text(
+              '출결',
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+          ),
+        ],
+        rows: List<DataRow>.generate(studentNumbers.length, (index) {
+          return DataRow(
+            cells: <DataCell>[
+              DataCell(
+                Container(
+                  alignment: Alignment.center,
+                  child: Text(studentNumbers[index]),
+                ),
+              ),
+              DataCell(
+                Container(
+                  alignment: Alignment.center,
+                  child: Text(studentNames[index]),
+                ),
+              ),
+              DataCell(
+                DropdownButton<String>(
+                  value: attendances[index],
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      attendances[index] = newValue!;
+                    });
+                  },
+                  items: <String>['출석', '지각', '결석'].map((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
+                ),
+              ),
+            ],
+          );
+        }),
       ),
     );
   }
