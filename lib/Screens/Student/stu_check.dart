@@ -265,10 +265,15 @@ class _StuCheckState extends State<StuCheck> with TickerProviderStateMixin {
                       color: mainColor,
                       child: Center(
                         child: Text(
-                          "지각, 결석",
+                          "지각 1회, 결석 2회",
                           style: TextStyle(color: Colors.white),
                         ),
                       ),
+                    ),
+                    Container(
+                      child: Image.asset('assets/chart1.png'),
+                      width: 300,
+                      height: 300,
                     )
                   ],
                 )

@@ -60,8 +60,10 @@ class _LoginPageState extends State<ProfLogin> {
     print('ID: $id, Password: $password');
 
     final response = await login(id, password);
+    print(response.body);
 
     final responseData = jsonDecode(response.body);
+    print(responseData);
     final status = responseData['status'];
     print(responseData);
 
