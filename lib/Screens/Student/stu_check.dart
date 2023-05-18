@@ -270,11 +270,6 @@ class _StuCheckState extends State<StuCheck> with TickerProviderStateMixin {
                         ),
                       ),
                     ),
-                    Container(
-                      child: Image.asset('assets/chart1.png'),
-                      width: 300,
-                      height: 300,
-                    )
                   ],
                 )
               ],

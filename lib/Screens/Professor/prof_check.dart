@@ -99,14 +99,12 @@ class _CheckState extends State<Check> with TickerProviderStateMixin {
           Expanded(
             child: TabBarView(controller: _tabController, children: [
               Column(
-                // mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Column(
                     children: [
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          // SizedBox(width: 40),
                           Container(
                             padding: EdgeInsets.only(left: 20, right: 20),
                             decoration: BoxDecoration(
@@ -156,10 +154,12 @@ class _CheckState extends State<Check> with TickerProviderStateMixin {
                           ),
                         ],
                       ),
-                      SizedBox(height: size.height * 0.2),
+                      SizedBox(width: 60),
                       GoButton(text: "출석체크하기", onpress: proCheck),
                     ],
                   ),
+                  SizedBox(height: 20),
+                  AttendanceTable(), // 추가: 출석 체크 표
                 ],
               ),
               Column(
@@ -170,6 +170,59 @@ class _CheckState extends State<Check> with TickerProviderStateMixin {
             ]),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class AttendanceTable extends StatelessWidget {
+  final List<String> studentNumbers = ['2000000', '2000001', '2000002'];
+  final List<String> studentNames = ['김이화', '박이화', '최이화'];
+  final List<bool> attendances = [false, false, false];
+  final List<bool> lates = [false, false, false];
+  final List<bool> absences = [true, true, true];
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: DataTable(
+        columns: [
+          DataColumn(label: Text('학번')),
+          DataColumn(label: Text('이름')),
+          DataColumn(label: Text('출석')),
+          DataColumn(label: Text('지각')),
+          DataColumn(label: Text('결석')),
+        ],
+        rows: List<DataRow>.generate(studentNumbers.length, (index) {
+          return DataRow(
+            cells: [
+              DataCell(Text(studentNumbers[index])),
+              DataCell(Text(studentNames[index])),
+              DataCell(
+                Text(attendances[index] ? 'O' : ''),
+                onTap: () {
+                  // 학번에 해당하는 출석 상태 변경 로직 작성
+                  // 예: attendances[index] = !attendances[index];
+                },
+              ),
+              DataCell(
+                Text(lates[index] ? 'O' : ''),
+                onTap: () {
+                  // 학번에 해당하는 지각 상태 변경 로직 작성
+                  // 예: lates[index] = !lates[index];
+                },
+              ),
+              DataCell(
+                Text(absences[index] ? 'O' : ''),
+                onTap: () {
+                  // 학번에 해당하는 결석 상태 변경 로직 작성
+                  // 예: absences[index] = !absences[index];
+                },
+              ),
+            ],
+          );
+        }),
       ),
     );
   }
