@@ -7,13 +7,20 @@ import 'package:ea9gu/api/add_device.dart';
 import 'package:http/http.dart' as http;
 
 class Device extends StatefulWidget {
+  final String studentId;
+
+  Device({required this.studentId});
+
   @override
-  _DeviceScreenState createState() => _DeviceScreenState();
+  _DeviceScreenState createState() => _DeviceScreenState(student_id: studentId);
 }
 
 class _DeviceScreenState extends State<Device> {
+  final String student_id; // studentId 필드를 선언
+
+  _DeviceScreenState({required this.student_id});
+
   Map<String, String> deviceInfo = {};
-  final student_id = "2300000";
   String current_id = "";
   String current_name = "";
   String current_time = "";
@@ -34,6 +41,7 @@ class _DeviceScreenState extends State<Device> {
     final deviceType = deviceInfo['device_type'];
     final deviceSerial = deviceInfo['device_id'];
 
+    print(student_id);
     final response = await addDevice(
       student_id,
       deviceType!,
@@ -89,7 +97,7 @@ class _DeviceScreenState extends State<Device> {
       });
       print(current_id);
     } else {
-      throw Exception('등록된 디바이스가 없습니다.');
+      print('등록된 디바이스가 없습니다.');
     }
   }
 
