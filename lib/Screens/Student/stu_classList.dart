@@ -6,6 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class StuclassList extends StatelessWidget {
+  final String student_id;
+
+  StuclassList({required this.student_id});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
