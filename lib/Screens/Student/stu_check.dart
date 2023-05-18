@@ -32,7 +32,7 @@ class _StuCheckState extends State<StuCheck> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    checkAttendanceStatus();
+    // checkAttendanceStatus(); //임시
     _audioRecorder.openRecorder();
   }
 
@@ -63,7 +63,7 @@ class _StuCheckState extends State<StuCheck> with TickerProviderStateMixin {
   }
 
   Future<void> _sendAudioFile(File file) async {
-    final url = Uri.parse('http://10.0.2.2:8000/freq/save-attendance/');
+    final url = Uri.parse('http://localhost:8000/freq/save-attendance/');
     final request = http.MultipartRequest('POST', url);
     final fileBytes = await file.readAsBytes();
     request.files.add(await http.MultipartFile.fromBytes(
@@ -73,7 +73,7 @@ class _StuCheckState extends State<StuCheck> with TickerProviderStateMixin {
       contentType: MediaType('audio', 'wav'),
     ));
     request.fields['student_id'] = 'stu_id'; // Replace with current user ID
-    request.fields['course_id'] = widget.buttonText;
+    request.fields['course_id'] = '12345'; //widget.buttonText
     request.fields['date'] = DateTime.now().toString();
     final response = await request.send();
 
@@ -97,10 +97,10 @@ class _StuCheckState extends State<StuCheck> with TickerProviderStateMixin {
   }
 
   Future<void> checkAttendanceStatus() async {
-    final url2 = Uri.parse('http://10.0.2.2:8000/class/activate-signal/');
+    final url2 = Uri.parse('http://localhost:8000/class/activate-signal/');
     final request2 = http.MultipartRequest('POST', url2);
     request2.fields['student_id'] = 'stu_id'; // Replace with current user ID
-    request2.fields['course_id'] = widget.buttonText;
+    request2.fields['course_id'] = '12345'; //widget.buttonText
     final response2 = await request2.send();
 
     if (response2.statusCode == 200) {
@@ -108,12 +108,14 @@ class _StuCheckState extends State<StuCheck> with TickerProviderStateMixin {
       final responseData = await response2.stream.bytesToString();
       final parsedResponse = jsonDecode(responseData);
       print(parsedResponse);
-      if (parsedResponse['status'] == 'check') {
+      if (parsedResponse['status'] == 'bluecheck') {
+        //check
         setState(() {
           isAttendanceChecking = true;
           stateText = '출석체크 중';
         });
-      } else if (parsedResponse['status'] == 'bluecheck') {
+      } else if (parsedResponse['status'] == 'check') {
+        //bluecheck
         setState(() {
           isAttendanceChecking = false;
           stateText = '출석체크 중이 아닙니다';
