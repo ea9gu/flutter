@@ -54,7 +54,7 @@ class proSignup2 extends StatelessWidget {
                         context,
                         MaterialPageRoute(
                           builder: (context) {
-                            return Login();
+                            return ProfLogin();
                           },
                         ),
                       );

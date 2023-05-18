@@ -5,6 +5,8 @@ import 'package:ea9gu/Screens/Student/Login/stu_login.dart';
 import 'package:ea9gu/Screens/Student/Signup/studentSignup2.dart';
 import 'package:flutter/material.dart';
 import 'package:ea9gu/Components/validate.dart';
+import 'package:ea9gu/api/auth_signup.dart';
+import 'dart:convert';
 
 class StudentSignup1 extends StatefulWidget {
   @override
@@ -13,17 +15,73 @@ class StudentSignup1 extends StatefulWidget {
 
 class SignUpFormState extends State<StudentSignup1> {
   final _formKey = GlobalKey<FormState>();
+  String username = ''; //id
   String name = '';
-  int? id;
   final password_controller = TextEditingController();
   String password_confirm = '';
   String email = '';
+  String password = '';
+  bool flag = false;
 
   String? validateConfirmPassword(String? value) {
     if (value != password_controller.text) {
       return '비밀번호가 다릅니다.';
     }
     return null;
+  }
+
+  Future<void> submitUserInfo() async {
+    try {
+      final response =
+          await signUp(username, name, flag, password, password_confirm);
+
+      final responseData = jsonDecode(response.body);
+      final status = responseData['status'];
+
+      if (status == 'success') {
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: Text('Success'),
+            content: Text('회원가입에 성공했습니다.'),
+            actions: <Widget>[
+              TextButton(
+                child: Text('OK'),
+                onPressed: () {
+                  // 다음 화면으로 이동하는 코드 추가
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) {
+                        return stuLogin();
+                      },
+                    ),
+                  );
+                },
+              )
+            ],
+          ),
+        );
+      } else {
+        print(responseData['errors']);
+        //throw Exception('Failed to sign up');
+      }
+    } catch (e) {
+      print(e);
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text('Error'),
+          content: Text('Failed to sign up'),
+          actions: <Widget>[
+            TextButton(
+              child: Text('OK'),
+              onPressed: () => Navigator.of(context).pop(),
+            )
+          ],
+        ),
+      );
+    }
   }
 
   @override
@@ -41,7 +99,7 @@ class SignUpFormState extends State<StudentSignup1> {
               SizedBox(
                 height: 80,
               ),
-              Text('회원가입하기',
+              Text('학생 회원가입하기',
                   style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
               SizedBox(height: 15),
               buildTextFormField(
@@ -56,7 +114,7 @@ class SignUpFormState extends State<StudentSignup1> {
                 hintText: "학번",
                 validator: (value) => Validate().validateId(value),
                 onSaved: (value) {
-                  id = int.parse(value!);
+                  username = value!;
                 },
               ),
               SizedBox(height: 15),
@@ -91,19 +149,8 @@ class SignUpFormState extends State<StudentSignup1> {
                       if (_formKey.currentState!.validate()) {
                         // 유효성 검사가 모두 통과된 경우 처리
                         _formKey.currentState!.save();
-                        final password = password_controller.text;
-                        print('Name: $name');
-                        print('Username: $id');
-                        print('Password: $password');
-                        print('Email: $email');
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) {
-                              return studentSignup2();
-                            },
-                          ),
-                        );
+                        password = password_controller.text;
+                        submitUserInfo();
                       }
                     }),
                 SizedBox(height: 20),
