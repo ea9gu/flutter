@@ -26,7 +26,7 @@ class StuclassList extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                     builder: (context) {
-                      return Device();
+                      return Device(studentId: student_id);
                     },
                   ),
                 );
