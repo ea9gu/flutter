@@ -6,6 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class ProclassList extends StatelessWidget {
+  final String prof_id;
+
+  ProclassList({required this.prof_id});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

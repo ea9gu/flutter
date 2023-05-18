@@ -17,3 +17,16 @@ Future<http.Response> signUp(String username, String name, bool flag,
 
   return response;
 }
+
+Future<http.Response> login(String username, String password) async {
+  final url = Uri.parse('http://10.0.2.2:8000/user/account/mylogin/');
+  final headers = {'Content-Type': 'application/json'};
+  final body = json.encode({
+    'username': username,
+    'password': password,
+  });
+
+  final response = await http.post(url, headers: headers, body: body);
+
+  return response;
+}

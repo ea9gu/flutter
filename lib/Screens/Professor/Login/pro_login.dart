@@ -9,6 +9,9 @@ import 'package:ea9gu/Screens/Professor/Signup/ProSignup1.dart';
 import 'package:ea9gu/Screens/Professor/prof_classList.dart';
 import 'package:flutter/material.dart';
 import 'package:ea9gu/Components/validate.dart';
+import 'package:ea9gu/Components/dialog.dart';
+import 'package:ea9gu/api/auth_signup.dart';
+import 'dart:convert';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -49,23 +52,34 @@ class _LoginPageState extends State<Login> {
     );
   }
 
-  void onLoginButtonPressed() {
+  void onLoginProf() async {
     // TODO: 로그인 버튼 눌렀을 때의 동작 구현
     final String id = idController.text.split('@')[0]; //이메일을 잘라서 id로 저장
     final String password = passwordController.text;
     print('ID: $id, Password: $password');
-    if (id == "1234567" && password == "12345678") {
+
+    final response = await login(id, password);
+
+    final responseData = jsonDecode(response.body);
+    final status = responseData['status'];
+    print(responseData);
+
+    if (status == "success") {
       Navigator.push(
         context,
         MaterialPageRoute(
           builder: (context) {
-            return ProclassList();
+            return ProclassList(prof_id: id);
           },
         ),
       );
     } else {
       // 인증 실패
-      _showAuthFailDialog();
+      DialogFormat.customDialog(
+        context: context,
+        title: '로그인 실패',
+        content: '유효하지 않은 학번이나 비밀번호',
+      );
     }
   }
 
@@ -104,6 +118,7 @@ class _LoginPageState extends State<Login> {
                       ),
                       SizedBox(height: size.height * 0.03),
                       buildTextFormField(
+                        obscureText: true,
                         controller: passwordController,
                         hintText: "비밀번호",
                         validator: (value) =>
@@ -150,7 +165,7 @@ class _LoginPageState extends State<Login> {
                           text: "로그인하기",
                           onpress: () {
                             if (_formKey.currentState!.validate()) {
-                              onLoginButtonPressed();
+                              onLoginProf();
                             }
                           }),
                       SizedBox(height: size.height * 0.03),
