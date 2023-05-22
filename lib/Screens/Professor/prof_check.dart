@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:audioplayers/audioplayers.dart';
+import 'package:ea9gu/Components/dropdown.dart';
 
 class Check extends StatefulWidget {
   Check({required this.buttonText, Key? key}) : super(key: key);
@@ -17,10 +18,32 @@ class _CheckState extends State<Check> with TickerProviderStateMixin {
   List<String> optiontime = ['5분', '10분', '15분'];
   List<String> optionlate = ['지각 O', '지각 X'];
 
+  List<String> viewoption = ['날짜별', '학생별'];
+  List<String> optiondate = ['1/2', '1/5'];
+
   String? selectedOptiontime;
   String? selectedOptionlate;
 
+  String? selectedViewOption;
+  String? selectedOptiondate;
+
+  String? tab = '출석체크'; //무슨 탭인가
+
   final player = AudioPlayer();
+
+  late TabController _tabController;
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(length: 2, vsync: this);
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
 
   void proCheck() async {
     var url = 'http://localhost:8000/freq/generate-freq/';
@@ -53,7 +76,7 @@ class _CheckState extends State<Check> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    TabController _tabController = TabController(length: 2, vsync: this);
+    //TabController _tabController = TabController(length: 2, vsync: this);
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.buttonText),
@@ -67,6 +90,7 @@ class _CheckState extends State<Check> with TickerProviderStateMixin {
             width: MediaQuery.of(context).size.width,
             child: DefaultTabController(
               length: 2,
+              initialIndex: 1,
               child: Padding(
                 padding: EdgeInsets.all(8.0),
                 child: Column(
@@ -105,124 +129,108 @@ class _CheckState extends State<Check> with TickerProviderStateMixin {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Container(
-                            padding: EdgeInsets.only(left: 20, right: 20),
-                            decoration: BoxDecoration(
-                                border: Border.all(color: mainColor, width: 2),
-                                borderRadius: BorderRadius.circular(25)),
-                            child: DropdownButton(
-                              hint: Text("출석 시간 설정"),
-                              underline: SizedBox(),
-                              dropdownColor: mainColor,
-                              value: selectedOptiontime,
-                              items: optiontime.map((option) {
-                                return DropdownMenuItem(
-                                  value: option,
-                                  child: Text(option),
-                                );
-                              }).toList(),
-                              onChanged: (String? newValue) {
-                                setState(() {
-                                  selectedOptiontime = newValue!;
-                                });
-                              },
-                            ),
+                          CustomDropdownButton(
+                            hint: "출석 시간 설정",
+                            items: optiontime,
+                            value: selectedOptiontime,
+                            onChanged: (String? newValue) {
+                              setState(() {
+                                selectedOptiontime = newValue!;
+                              });
+                            },
                           ),
                           SizedBox(width: 30),
-                          Container(
-                            padding: EdgeInsets.only(left: 20, right: 20),
-                            decoration: BoxDecoration(
-                                border: Border.all(color: mainColor, width: 2),
-                                borderRadius: BorderRadius.circular(25)),
-                            child: DropdownButton(
-                              hint: Text("지각 허용 설정"),
-                              underline: SizedBox(),
-                              dropdownColor: mainColor,
-                              value: selectedOptionlate,
-                              items: optionlate.map((option) {
-                                return DropdownMenuItem(
-                                  value: option,
-                                  child: Text(option),
-                                );
-                              }).toList(),
-                              onChanged: (String? newValue) {
-                                setState(() {
-                                  selectedOptionlate = newValue!;
-                                });
-                              },
-                            ),
+                          CustomDropdownButton(
+                            hint: "지각 허용 설정",
+                            items: optionlate,
+                            value: selectedOptionlate,
+                            onChanged: (String? newValue) {
+                              setState(() {
+                                selectedOptionlate = newValue!;
+                              });
+                            },
                           ),
                         ],
                       ),
-                      SizedBox(width: 60),
+                      SizedBox(height: 60),
                       GoButton(text: "출석체크하기", onpress: proCheck),
                     ],
                   ),
                   SizedBox(height: 20),
-                  AttendanceTable(), // 추가: 출석 체크 표
                 ],
               ),
               Column(
                 children: [
-                  GoButton(text: "임시", onpress: () {}),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      CustomDropdownButton(
+                        hint: "날짜별/학생별",
+                        items: viewoption,
+                        value: selectedViewOption,
+                        onChanged: (String? newValue) {
+                          setState(() {
+                            selectedViewOption = newValue!;
+                          });
+                        },
+                      ),
+                      SizedBox(width: 30),
+                      if (selectedViewOption == "날짜별")
+                        Column(
+                          children: [
+                            CustomDropdownButton(
+                              hint: "날짜",
+                              items: optiondate,
+                              value: selectedOptiondate,
+                              onChanged: (String? newValue) {
+                                setState(() {
+                                  selectedOptiondate = newValue!;
+                                });
+                              },
+                            ),
+                          ],
+                        )
+                    ],
+                  ),
+                  if (selectedViewOption == "학생별")
+                    Padding(
+                      padding:
+                          EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+                      child: Stack(
+                        alignment: Alignment.centerRight,
+                        children: [
+                          Container(
+                            padding: EdgeInsets.only(left: 20, right: 20),
+                            decoration: BoxDecoration(
+                              border: Border.all(color: mainColor, width: 2),
+                              borderRadius: BorderRadius.circular(25),
+                            ),
+                            child: TextField(
+                              decoration: InputDecoration(
+                                hintText: "학번 또는 이름을 검색해주세요.",
+                                border: InputBorder.none,
+                              ),
+                              onChanged: (value) {
+                                // 검색어 변경 시 동작
+                              },
+                            ),
+                          ),
+                          IconButton(
+                            onPressed: () {
+                              // 검색 아이콘 클릭 시 동작
+                            },
+                            icon: Icon(Icons.search),
+                            color: mainColor,
+                            splashColor: Colors.transparent,
+                          ),
+                        ],
+                      ),
+                    )
                 ],
               )
             ]),
           ),
         ],
-      ),
-    );
-  }
-}
-
-class AttendanceTable extends StatelessWidget {
-  final List<String> studentNumbers = ['2000000', '2000001', '2000002'];
-  final List<String> studentNames = ['김이화', '박이화', '최이화'];
-  final List<bool> attendances = [false, false, false];
-  final List<bool> lates = [false, false, false];
-  final List<bool> absences = [true, true, true];
-
-  @override
-  Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: DataTable(
-        columns: [
-          DataColumn(label: Text('학번')),
-          DataColumn(label: Text('이름')),
-          DataColumn(label: Text('출석')),
-          DataColumn(label: Text('지각')),
-          DataColumn(label: Text('결석')),
-        ],
-        rows: List<DataRow>.generate(studentNumbers.length, (index) {
-          return DataRow(
-            cells: [
-              DataCell(Text(studentNumbers[index])),
-              DataCell(Text(studentNames[index])),
-              DataCell(
-                Text(attendances[index] ? 'O' : ''),
-                onTap: () {
-                  // 학번에 해당하는 출석 상태 변경 로직 작성
-                  // 예: attendances[index] = !attendances[index];
-                },
-              ),
-              DataCell(
-                Text(lates[index] ? 'O' : ''),
-                onTap: () {
-                  // 학번에 해당하는 지각 상태 변경 로직 작성
-                  // 예: lates[index] = !lates[index];
-                },
-              ),
-              DataCell(
-                Text(absences[index] ? 'O' : ''),
-                onTap: () {
-                  // 학번에 해당하는 결석 상태 변경 로직 작성
-                  // 예: absences[index] = !absences[index];
-                },
-              ),
-            ],
-          );
-        }),
       ),
     );
   }

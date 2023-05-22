@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:ea9gu/Components/input_form.dart';
 import 'package:ea9gu/Components/next_button.dart';
@@ -15,6 +16,7 @@ class classPlus extends StatefulWidget {
 }
 
 class classPlusScreenState extends State<classPlus> {
+  File? _selectedFile;
   String selectedFileName = ''; // 선택한 파일의 제목을 저장할 변수
   String selectedFilePath = '';
   bool isFileSelected = false; // 파일이 선택되었는지 여부를 저장할 변수
@@ -22,11 +24,48 @@ class classPlusScreenState extends State<classPlus> {
   String course_name = ''; //강좌명
   final _formKey = GlobalKey<FormState>();
 
+  void _pickFile(BuildContext context) async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: ['xlsx', 'xls', 'csv'], // 허용할 파일 확장자를 여기에 추가하세요.
+    );
+
+    if (result != null && result.files.isNotEmpty) {
+      final file = File(result.files.first.path!);
+      String filePath = result.files.single.path!;
+      String fileName = path.basename(filePath); // 선택한 파일의 제목을 가져옴
+      //String uploadStatus = await uploadFile(filePath);
+      setState(() {
+        _selectedFile = file;
+        selectedFilePath = filePath;
+        selectedFileName = fileName; // 파일 제목을 selectedFileName 변수에 할당
+        isFileSelected = true; // 파일이 선택되었음을 표시
+      });
+
+      /*
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(uploadStatus)),
+      );
+      */
+    } else {
+      setState(() {
+        _selectedFile = null;
+        selectedFilePath = '';
+        selectedFileName = ''; // 파일 선택이 취소된 경우 변수 초기화
+        isFileSelected = false; // 파일 선택이 취소되었음을 표시
+      });
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('파일 선택 취소됨')),
+      );
+    }
+  }
+
   Future<void> enrollStudents() async {
     _formKey.currentState!.save();
     final url = Uri.parse(
-        'http://localhost:8000/class/create-and-enroll/'); // Replace with your DRF server URL
+        'http://10.0.2.2:8000/class/create-and-enroll/'); // Replace with your DRF server URL
 
+    print(selectedFilePath);
     try {
       var request = http.MultipartRequest('POST', url);
       request.fields['course_id'] = course_id;
@@ -40,7 +79,8 @@ class classPlusScreenState extends State<classPlus> {
       if (response.statusCode == 200) {
         print("hi");
         var responseJson = await response.stream.bytesToString();
-        var decodedJson = jsonDecode(responseJson);
+        var responseData = jsonDecode(responseJson);
+        final status = responseData['status'];
 
         // Process the responseJson
       } else {
@@ -48,39 +88,6 @@ class classPlusScreenState extends State<classPlus> {
       }
     } catch (e) {
       // Handle error
-    }
-  }
-
-  void _pickFile(BuildContext context) async {
-    FilePickerResult? result = await FilePicker.platform.pickFiles(
-      type: FileType.custom,
-      allowedExtensions: ['xlsx', 'xls', 'csv'], // 허용할 파일 확장자를 여기에 추가하세요.
-    );
-
-    if (result != null) {
-      String filePath = result.files.single.path!;
-      String fileName = path.basename(filePath); // 선택한 파일의 제목을 가져옴
-      //String uploadStatus = await uploadFile(filePath);
-      setState(() {
-        selectedFilePath = filePath;
-        selectedFileName = fileName; // 파일 제목을 selectedFileName 변수에 할당
-        isFileSelected = true; // 파일이 선택되었음을 표시
-      });
-
-      /*
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(uploadStatus)),
-      );
-      */
-    } else {
-      setState(() {
-        selectedFilePath = '';
-        selectedFileName = ''; // 파일 선택이 취소된 경우 변수 초기화
-        isFileSelected = false; // 파일 선택이 취소되었음을 표시
-      });
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('파일 선택 취소됨')),
-      );
     }
   }
 
@@ -151,6 +158,7 @@ class classPlusScreenState extends State<classPlus> {
                                 icon: Icon(Icons.clear),
                                 onPressed: () {
                                   setState(() {
+                                    _selectedFile = null;
                                     selectedFileName =
                                         ''; // 파일 선택 취소 버튼을 누르면 변수 초기화
                                     isFileSelected = false; // 파일 선택 취소되었음을 표시
