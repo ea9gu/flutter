@@ -65,6 +65,21 @@ class _CheckState extends State<Check> with TickerProviderStateMixin {
       if (fileLink != null) {
         print(response);
         player.play(AssetSource('audio_20000.wav'));
+        showDialog(
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                content: Text('출석체크가 시작되었습니다'),
+                actions: <Widget>[
+                  ElevatedButton(
+                    child: Text('OK'),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
+              );
+            });
       } else {
         print('Invalid file URL');
       }
