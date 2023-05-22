@@ -263,18 +263,30 @@ class _StuCheckState extends State<StuCheck> with TickerProviderStateMixin {
                 Column(
                   children: [
                     SizedBox(height: 20),
-                    Container(
-                      width: 250,
-                      height: 50,
-                      color: mainColor,
-                      child: Center(
-                        child: Text(
-                          "지각 1회, 결석 2회",
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ),
-                    ),
-                    flag == false ? AttendanceTable2() : AttendanceTable3()
+                    flag == false ? AttendanceTable2() : AttendanceTable3(),
+                    flag == false
+                        ? Container(
+                            width: 250,
+                            height: 50,
+                            color: mainColor,
+                            child: Center(
+                              child: Text(
+                                "출석 2회, 결석 1회",
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            ),
+                          )
+                        : Container(
+                            width: 250,
+                            height: 50,
+                            color: mainColor,
+                            child: Center(
+                              child: Text(
+                                "출석 3회",
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            ),
+                          ),
                   ],
                 )
               ],
