@@ -7,10 +7,11 @@ import 'package:flutter/services.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-class MyObject {
-  final String buttonText;
+class ClassObject {
+  final String class_name;
+  final String course_id;
 
-  MyObject({required this.buttonText});
+  ClassObject({required this.course_id, required this.class_name});
 }
 
 class StuclassList extends StatefulWidget {
@@ -24,13 +25,7 @@ class StuclassList extends StatefulWidget {
 
 class _StuclassListState extends State<StuclassList> {
   String student_id = '';
-  List<MyObject> classArray = [];
-
-  final List<MyObject> myArray = [
-    MyObject(buttonText: '캡스톤디자인과창업프로젝트B'),
-    MyObject(buttonText: '다른 과목'),
-    // 다른 객체들을 추가할 수 있습니다.
-  ];
+  List<ClassObject> classArray = [];
 
   @override
   void initState() {
@@ -40,17 +35,20 @@ class _StuclassListState extends State<StuclassList> {
   }
 
   Future<void> fetchCourses() async {
+    print(student_id);
     final url = Uri.parse(
-        'http://10.0.2.2:8000/student-course/get-student-course/?student_id=${student_id}');
+        'http://10.0.2.2:8000/class/student-course/?student_id=${student_id}');
     try {
       final response = await http.get(url);
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
+        print(data);
         List<dynamic> courses = data['courses'];
 
         setState(() {
           classArray = courses
-              .map((course) => MyObject(buttonText: course['name']))
+              .map((course) => ClassObject(
+                  course_id: course['class_id'], class_name: course['name']))
               .toList();
         });
       } else {
@@ -93,7 +91,7 @@ class _StuclassListState extends State<StuclassList> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Column(
-                    children: myArray.map((item) {
+                    children: classArray.map((item) {
                       return Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -106,13 +104,15 @@ class _StuclassListState extends State<StuclassList> {
                                     MaterialPageRoute(
                                       builder: (context) {
                                         return StuCheck(
-                                            buttonText: item.buttonText);
+                                          class_name: item.class_name,
+                                          course_id: item.course_id,
+                                        );
                                       },
                                     ),
                                   );
                                 },
                                 child: Text(
-                                  item.buttonText,
+                                  item.class_name,
                                   style: TextStyle(
                                     fontSize: 18,
                                     color: mainColor,

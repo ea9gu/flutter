@@ -9,8 +9,11 @@ import 'package:http_parser/http_parser.dart';
 import 'dart:convert';
 
 class StuCheck extends StatefulWidget {
-  StuCheck({required this.buttonText, Key? key}) : super(key: key);
-  final String buttonText;
+  final String class_name;
+  final String course_id;
+
+  StuCheck({required this.class_name, required this.course_id, Key? key})
+      : super(key: key);
 
   @override
   _StuCheckState createState() => _StuCheckState();
@@ -73,7 +76,7 @@ class _StuCheckState extends State<StuCheck> with TickerProviderStateMixin {
       contentType: MediaType('audio', 'wav'),
     ));
     request.fields['student_id'] = 'stu_id'; // Replace with current user ID
-    request.fields['course_id'] = widget.buttonText;
+    request.fields['course_id'] = widget.course_id;
     request.fields['date'] = DateTime.now().toString();
     final response = await request.send();
 
@@ -100,7 +103,7 @@ class _StuCheckState extends State<StuCheck> with TickerProviderStateMixin {
     final url2 = Uri.parse('http://10.0.2.2:8000/class/activate-signal/');
     final request2 = http.MultipartRequest('POST', url2);
     request2.fields['student_id'] = 'stu_id'; // Replace with current user ID
-    request2.fields['course_id'] = widget.buttonText;
+    request2.fields['course_id'] = widget.course_id;
     final response2 = await request2.send();
 
     if (response2.statusCode == 200) {
@@ -148,7 +151,7 @@ class _StuCheckState extends State<StuCheck> with TickerProviderStateMixin {
     TabController _tabController = TabController(length: 2, vsync: this);
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.buttonText),
+        title: Text(widget.class_name),
         centerTitle: true,
         backgroundColor: mainColor,
       ),
@@ -261,18 +264,30 @@ class _StuCheckState extends State<StuCheck> with TickerProviderStateMixin {
                 Column(
                   children: [
                     SizedBox(height: 20),
-                    Container(
-                      width: 250,
-                      height: 50,
-                      color: mainColor,
-                      child: Center(
-                        child: Text(
-                          "지각 1회, 결석 2회",
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ),
-                    ),
-                    flag == false ? AttendanceTable2() : AttendanceTable3()
+                    flag == false ? AttendanceTable2() : AttendanceTable3(),
+                    flag == false
+                        ? Container(
+                            width: 250,
+                            height: 50,
+                            color: mainColor,
+                            child: Center(
+                              child: Text(
+                                "출석 2회, 결석 1회",
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            ),
+                          )
+                        : Container(
+                            width: 250,
+                            height: 50,
+                            color: mainColor,
+                            child: Center(
+                              child: Text(
+                                "출석 3회",
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            ),
+                          ),
                   ],
                 )
               ],
