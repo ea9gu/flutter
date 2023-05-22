@@ -5,10 +5,22 @@ import 'package:ea9gu/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+class MyObject {
+  final String buttonText;
+
+  MyObject({required this.buttonText});
+}
+
 class ProclassList extends StatelessWidget {
   final String prof_id;
 
   ProclassList({required this.prof_id});
+
+  final List<MyObject> myArray = [
+    MyObject(buttonText: '캡스톤디자인과창업프로젝트B'),
+    MyObject(buttonText: '다른 과목'),
+    // 다른 객체들을 추가할 수 있습니다.
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -32,42 +44,62 @@ class ProclassList extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  IconButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) {
-                            return classPlus();
-                          },
-                        ),
-                      );
-                    },
-                    icon: Icon(Icons.add_circle_outline, size: 30),
+                  Column(
+                    children: myArray.map((item) {
+                      return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.all(2.0),
+                              child: TextButton(
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) {
+                                        return Check(
+                                            buttonText: item.buttonText);
+                                      },
+                                    ),
+                                  );
+                                },
+                                child: Text(
+                                  item.buttonText,
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    color: mainColor,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Container(
+                                height: 1.0,
+                                width: 500.0,
+                                color: Color(0xffD8DADC)),
+                          ]);
+                    }).toList(),
                   ),
-                  SizedBox(height: 50),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) {
-                            return Check(buttonText: "캡스톤디자인과창업프로젝트B");
-                          },
-                        ),
-                      );
-                    },
-                    child: Text(
-                      "캡스톤디자인과창업프로젝트B",
-                      style: TextStyle(
-                        fontSize: 18,
+                  Align(
+                    alignment: Alignment.center,
+                    child: IconButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) {
+                              return classPlus();
+                            },
+                          ),
+                        );
+                      },
+                      icon: Icon(
+                        Icons.add_circle_outline,
+                        size: 30,
                         color: mainColor,
-                        fontWeight: FontWeight.bold,
                       ),
                     ),
-                  ),
-                  Container(
-                      height: 1.0, width: 500.0, color: Color(0xffD8DADC)),
+                  )
                 ],
               ),
             ),
