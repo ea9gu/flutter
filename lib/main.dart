@@ -31,12 +31,12 @@ class First extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-              Image.asset('assets/sample.jpg'),
+              Image.asset('assets/logo.png'),
               SizedBox(height: 30),
-              Text(
-                "Explore the app",
-                style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-              ),
+              // Text(
+              //   "Explore the app",
+              //   style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+              // ),
               SizedBox(height: 30),
               Container(
                   margin: EdgeInsets.all(10),
