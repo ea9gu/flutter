@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:ea9gu/constants.dart';
 import 'package:http/http.dart' as http;
+import 'package:ea9gu/Components/dialog.dart';
 import 'package:path/path.dart' as path;
 import 'package:http_parser/http_parser.dart';
 
@@ -69,7 +70,7 @@ class classPlusScreenState extends State<classPlus> {
     try {
       var request = http.MultipartRequest('POST', url);
       request.fields['course_id'] = course_id;
-      request.fields['professor_id'] = "prof1";
+      request.fields['professor_id'] = "1234567";
       request.fields['course_name'] = course_name;
       request.files
           .add(await http.MultipartFile.fromPath('csv_file', selectedFilePath));
@@ -81,10 +82,47 @@ class classPlusScreenState extends State<classPlus> {
         var responseJson = await response.stream.bytesToString();
         var responseData = jsonDecode(responseJson);
         final status = responseData['status'];
-
+        print(responseData);
+        if (status == "success") {
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: Text('알림'),
+                content: Text('강좌가 추가되었습니다.'),
+                actions: <Widget>[
+                  TextButton(
+                    child: Text('확인'),
+                    onPressed: () {
+                      // Reset form and close pop-up
+                      _formKey.currentState!.reset();
+                      setState(() {
+                        _selectedFile = null;
+                        selectedFileName = ''; // 파일 선택 취소 버튼을 누르면 변수 초기화
+                        isFileSelected = false; // 파일 선택 취소되었음을 표시
+                      });
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
+              );
+            },
+          );
+        } else {
+          DialogFormat.customDialog(
+            context: context,
+            title: 'Error',
+            content: '모든 칸을 입력해 주세요.',
+          );
+        }
         // Process the responseJson
       } else {
         // Handle error
+        DialogFormat.customDialog(
+          context: context,
+          title: 'Error',
+          content: '출석부를 첨부해 주세요.',
+        );
       }
     } catch (e) {
       // Handle error
