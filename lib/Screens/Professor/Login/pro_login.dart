@@ -143,7 +143,8 @@ class _LoginPageState extends State<ProfLogin> {
                       buildTextFormField(
                         controller: idController,
                         hintText: "이메일",
-                        validator: (value) => Validate().validateEmail(value),
+                        validator: (value) =>
+                            Validate().validateProfEmail(value),
                       ),
                       SizedBox(height: size.height * 0.03),
                       buildTextFormField(

@@ -127,7 +127,7 @@ class SignUpFormState extends State<ProSignup1> {
               SizedBox(height: 15),
               buildTextFormField(
                 hintText: "이메일",
-                validator: (value) => Validate().validateEmail(value),
+                validator: (value) => Validate().validateProfEmail(value),
                 onSaved: (value) {
                   email = value!;
                 },

@@ -44,13 +44,16 @@ class ProclassList extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
+                  SizedBox(
+                    height: 20,
+                  ),
                   Column(
                     children: myArray.map((item) {
                       return Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Padding(
-                              padding: EdgeInsets.all(2.0),
+                              padding: EdgeInsets.all(5.0),
                               child: TextButton(
                                 onPressed: () {
                                   Navigator.push(
@@ -66,7 +69,7 @@ class ProclassList extends StatelessWidget {
                                 child: Text(
                                   item.buttonText,
                                   style: TextStyle(
-                                    fontSize: 18,
+                                    fontSize: 22,
                                     color: mainColor,
                                     fontWeight: FontWeight.bold,
                                   ),
