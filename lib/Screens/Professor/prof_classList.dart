@@ -88,7 +88,7 @@ class ProclassList extends StatelessWidget {
                           context,
                           MaterialPageRoute(
                             builder: (context) {
-                              return classPlus();
+                              return classPlus(prof_id: prof_id);
                             },
                           ),
                         );

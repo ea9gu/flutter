@@ -12,6 +12,10 @@ import 'package:path/path.dart' as path;
 import 'package:http_parser/http_parser.dart';
 
 class classPlus extends StatefulWidget {
+  final String prof_id;
+
+  classPlus({required this.prof_id});
+
   @override
   classPlusScreenState createState() => classPlusScreenState();
 }
@@ -70,7 +74,7 @@ class classPlusScreenState extends State<classPlus> {
     try {
       var request = http.MultipartRequest('POST', url);
       request.fields['course_id'] = course_id;
-      request.fields['professor_id'] = "1234567";
+      request.fields['professor_id'] = widget.prof_id;
       request.fields['course_name'] = course_name;
       request.files
           .add(await http.MultipartFile.fromPath('csv_file', selectedFilePath));
