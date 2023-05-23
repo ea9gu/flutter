@@ -4,23 +4,61 @@ import 'package:ea9gu/Screens/Professor/prof_check.dart';
 import 'package:ea9gu/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
-class MyObject {
-  final String buttonText;
+class ClassObject {
+  final String class_name;
+  final String course_id;
 
-  MyObject({required this.buttonText});
+  ClassObject({required this.course_id, required this.class_name});
 }
 
-class ProclassList extends StatelessWidget {
+class ProclassList extends StatefulWidget {
   final String prof_id;
 
   ProclassList({required this.prof_id});
 
-  final List<MyObject> myArray = [
-    MyObject(buttonText: '캡스톤디자인과창업프로젝트B'),
-    MyObject(buttonText: '다른 과목'),
-    // 다른 객체들을 추가할 수 있습니다.
-  ];
+  @override
+  _ProclassListState createState() => _ProclassListState();
+}
+
+class _ProclassListState extends State<ProclassList> {
+  String prof_id = '';
+  List<ClassObject> proClassArray = [];
+
+  @override
+  void initState() {
+    super.initState();
+    prof_id = widget.prof_id;
+    fetchProCourses();
+  }
+
+  Future<void> fetchProCourses() async {
+    print(prof_id);
+    final url = Uri.parse(
+        'http://10.0.2.2:8000/class/prof-course/?professor_id=${prof_id}');
+    try {
+      final response = await http.get(url);
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+        print(data);
+        List<dynamic> courses = data['courses'];
+
+        setState(() {
+          proClassArray = courses
+              .map((course) => ClassObject(
+                  course_id: course['course_id'], class_name: course['name']))
+              .toList();
+        });
+        print(proClassArray);
+      } else {
+        // Handle API error
+      }
+    } catch (e) {
+      // Handle network or connection error
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +86,7 @@ class ProclassList extends StatelessWidget {
                     height: 20,
                   ),
                   Column(
-                    children: myArray.map((item) {
+                    children: proClassArray.map((item) {
                       return Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -61,13 +99,15 @@ class ProclassList extends StatelessWidget {
                                     MaterialPageRoute(
                                       builder: (context) {
                                         return Check(
-                                            buttonText: item.buttonText);
+                                          class_name: item.class_name,
+                                          course_id: item.course_id,
+                                        );
                                       },
                                     ),
                                   );
                                 },
                                 child: Text(
-                                  item.buttonText,
+                                  item.class_name,
                                   style: TextStyle(
                                     fontSize: 22,
                                     color: mainColor,

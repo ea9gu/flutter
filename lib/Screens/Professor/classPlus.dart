@@ -10,6 +10,7 @@ import 'package:http/http.dart' as http;
 import 'package:ea9gu/Components/dialog.dart';
 import 'package:path/path.dart' as path;
 import 'package:http_parser/http_parser.dart';
+import 'package:ea9gu/Screens/Professor/prof_classList.dart';
 
 class classPlus extends StatefulWidget {
   final String prof_id;
@@ -92,8 +93,8 @@ class classPlusScreenState extends State<classPlus> {
             context: context,
             builder: (BuildContext context) {
               return AlertDialog(
-                title: Text('알림'),
-                content: Text('강좌가 추가되었습니다.'),
+                title: Text('Success'),
+                content: Text('${course_name} 강좌가 추가되었습니다.'),
                 actions: <Widget>[
                   TextButton(
                     child: Text('확인'),
@@ -106,6 +107,14 @@ class classPlusScreenState extends State<classPlus> {
                         isFileSelected = false; // 파일 선택 취소되었음을 표시
                       });
                       Navigator.of(context).pop();
+                      Navigator.of(context).pop();
+
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                ProclassList(prof_id: widget.prof_id)),
+                      );
                     },
                   ),
                 ],

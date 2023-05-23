@@ -7,8 +7,11 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:ea9gu/Components/dropdown.dart';
 
 class Check extends StatefulWidget {
-  Check({required this.buttonText, Key? key}) : super(key: key);
-  final String buttonText;
+  final String class_name;
+  final String course_id;
+
+  Check({required this.class_name, required this.course_id, Key? key})
+      : super(key: key);
 
   @override
   State<Check> createState() => _CheckState();
@@ -46,11 +49,11 @@ class _CheckState extends State<Check> with TickerProviderStateMixin {
   }
 
   void proCheck() async {
-    var url = 'http://localhost:8000/freq/generate-freq/';
+    var url = 'http://10.0.2.2:8000/freq/generate-freq/';
     var data = {
       'optiontime': selectedOptiontime,
       'optionlate': selectedOptionlate,
-      'course_id': widget.buttonText,
+      'course_id': widget.course_id,
     };
 
     var response = await http.post(
@@ -94,7 +97,7 @@ class _CheckState extends State<Check> with TickerProviderStateMixin {
     //TabController _tabController = TabController(length: 2, vsync: this);
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.buttonText),
+        title: Text(widget.class_name),
         centerTitle: true,
         backgroundColor: mainColor,
       ),
