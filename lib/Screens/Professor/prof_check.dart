@@ -97,6 +97,34 @@ class _CheckState extends State<Check> with TickerProviderStateMixin {
     }
   }
 
+  void fixAttendance(String courseId, String date, String studentId,
+      String beforeAttendance, String afterAttendance) async {
+    var url = 'http://localhost:8000/class/fix-attendance/';
+    var data = {
+      'course_id': courseId,
+      'date': date,
+      'student_id': studentId,
+      'bef_att': beforeAttendance,
+      'aft_att': afterAttendance,
+    };
+
+    var response = await http.post(
+      Uri.parse(url),
+      body: data,
+    );
+
+    if (response.statusCode == 200) {
+      var responseData = json.decode(response.body);
+      if (responseData.containsKey('success')) {
+        print('Attendance fixed successfully.');
+      } else if (responseData.containsKey('error')) {
+        print(responseData['error']);
+      }
+    } else {
+      print('Failed to fix attendance.');
+    }
+  }
+
   void fetchAttendanceData() async {
     var url = 'http://localhost:8000/class/get-attendance-data/';
     var data = {
@@ -321,9 +349,18 @@ class _CheckState extends State<Check> with TickerProviderStateMixin {
                                   value: attendanceStatus,
                                   onChanged: (String? newValue) {
                                     setState(() {
+                                      String beforeAttendance =
+                                          entry.value == 1 ? 'True' : 'False';
+                                      String afterAttendance =
+                                          newValue == '출석' ? 'True' : 'False';
                                       attendanceData[date] =
                                           newValue == '출석' ? 1 : 0;
-                                      print(newValue);
+                                      fixAttendance(
+                                          widget.course_id,
+                                          date,
+                                          studentId!,
+                                          beforeAttendance,
+                                          afterAttendance);
                                     });
                                   },
                                   items: attendanceOptions.map((option) {
