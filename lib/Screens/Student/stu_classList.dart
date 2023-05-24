@@ -48,7 +48,7 @@ class _StuclassListState extends State<StuclassList> {
         setState(() {
           classArray = courses
               .map((course) => ClassObject(
-                  course_id: course['class_id'], class_name: course['name']))
+                  course_id: course['course_id'], class_name: course['name']))
               .toList();
         });
       } else {
