@@ -71,7 +71,6 @@ class classPlusScreenState extends State<classPlus> {
     final url = Uri.parse(
         'http://10.0.2.2:8000/class/create-and-enroll/'); // Replace with your DRF server URL
 
-    print(selectedFilePath);
     try {
       var request = http.MultipartRequest('POST', url);
       request.fields['course_id'] = course_id;
@@ -83,11 +82,9 @@ class classPlusScreenState extends State<classPlus> {
       var response = await request.send();
 
       if (response.statusCode == 200) {
-        print("hi");
         var responseJson = await response.stream.bytesToString();
         var responseData = jsonDecode(responseJson);
         final status = responseData['status'];
-        print(responseData);
         if (status == "success") {
           showDialog(
             context: context,

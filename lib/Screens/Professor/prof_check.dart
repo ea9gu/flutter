@@ -5,6 +5,8 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:ea9gu/Components/dropdown.dart';
+import 'package:ea9gu/Components/date_attend_table.dart';
+import 'package:ea9gu/api/attend_list.dart';
 
 class Check extends StatefulWidget {
   final String class_name;
@@ -22,7 +24,7 @@ class _CheckState extends State<Check> with TickerProviderStateMixin {
   List<String> optionlate = ['지각 O', '지각 X'];
 
   List<String> viewoption = ['날짜별', '학생별'];
-  List<String> optiondate = ['1/2', '1/5'];
+  List<String> optiondate = [];
 
   String? selectedOptiontime;
   String? selectedOptionlate;
@@ -30,7 +32,14 @@ class _CheckState extends State<Check> with TickerProviderStateMixin {
   String? selectedViewOption;
   String? selectedOptiondate;
 
+  final student_id = '2000001';
+  final courseId = '10000-1'; // 가져올 출석 데이터의 과목 ID로 대체해야 합니다.
+  final date = '2023-05-23';
+
   String? tab = '출석체크'; //무슨 탭인가
+
+  Map<String, dynamic> attenddata = {};
+  List<dynamic> attendname = [];
 
   final player = AudioPlayer();
 
@@ -39,6 +48,7 @@ class _CheckState extends State<Check> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
+    getDateData();
     _tabController = TabController(length: 2, vsync: this);
   }
 
@@ -88,6 +98,37 @@ class _CheckState extends State<Check> with TickerProviderStateMixin {
       }
     } else {
       print('Failed to send data');
+    }
+  }
+
+  void getDateData() async {
+    //날짜 리스트
+    final courseId = widget.course_id;
+
+    final data = await fetchDateListData(courseId);
+    //print(data);
+    setState(() {
+      optiondate = List<String>.from(data['dates']);
+    });
+  }
+
+  Future<void> getDateAttendanceData() async {
+    //날짜별 출석부
+    final courseId = widget.course_id;
+    final date = selectedOptiondate;
+
+    if (selectedViewOption == "날짜별") {
+      final data = await fetchDateAttendanceData(courseId, date);
+      setState(() {
+        attenddata = data['attendance_data'];
+        attendname = data['student_names'].values.toList();
+        print(attendname);
+        //print(data);
+      });
+
+      if (selectedOptiondate != null) {
+        setState(() {});
+      }
     }
   }
 
@@ -171,7 +212,19 @@ class _CheckState extends State<Check> with TickerProviderStateMixin {
                         ],
                       ),
                       SizedBox(height: 60),
-                      GoButton(text: "출석체크하기", onpress: proCheck),
+                      GoButton(
+                          text: "출석체크하기",
+                          onpress: () {
+                            proCheck();
+                            setState(() {
+                              getDateData();
+                            });
+                          }),
+                      AttendanceTable(
+                          attendanceData: attenddata,
+                          course_id: widget.course_id,
+                          name: attendname,
+                          date: selectedOptiondate ?? '')
                     ],
                   ),
                   SizedBox(height: 20),
@@ -186,7 +239,7 @@ class _CheckState extends State<Check> with TickerProviderStateMixin {
                         hint: "날짜별/학생별",
                         items: viewoption,
                         value: selectedViewOption,
-                        onChanged: (String? newValue) {
+                        onChanged: (String? newValue) async {
                           setState(() {
                             selectedViewOption = newValue!;
                           });
@@ -200,14 +253,15 @@ class _CheckState extends State<Check> with TickerProviderStateMixin {
                               hint: "날짜",
                               items: optiondate,
                               value: selectedOptiondate,
-                              onChanged: (String? newValue) {
+                              onChanged: (String? newValue) async {
                                 setState(() {
                                   selectedOptiondate = newValue!;
                                 });
+                                await getDateAttendanceData();
                               },
                             ),
                           ],
-                        )
+                        ),
                     ],
                   ),
                   if (selectedViewOption == "학생별")
@@ -243,7 +297,13 @@ class _CheckState extends State<Check> with TickerProviderStateMixin {
                           ),
                         ],
                       ),
-                    )
+                    ),
+                  if (selectedViewOption == "날짜별" && selectedOptiondate != null)
+                    AttendanceTable(
+                        attendanceData: attenddata,
+                        course_id: widget.course_id,
+                        name: attendname,
+                        date: selectedOptiondate ?? ''),
                 ],
               )
             ]),
