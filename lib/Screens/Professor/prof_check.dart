@@ -113,9 +113,14 @@ class _CheckState extends State<Check> with TickerProviderStateMixin {
       print(response.body);
 
       if (response.statusCode == 200) {
-        var data = json.decode(response.body);
+        var responseData = json.decode(response.body);
+        var attendanceDataMap =
+            Map<String, int>.from(responseData['attendance_data']);
+        var attendanceDates = List<String>.from(responseData['dates']);
         setState(() {
-          attendanceData = Map<String, int>.from(data);
+          attendanceData = attendanceDataMap;
+          attendanceOptions = ['출석', '결석'];
+          optiondate = attendanceDates;
           error = null;
         });
       } else {
