@@ -96,7 +96,7 @@ class _StuclassListState extends State<StuclassList> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Padding(
-                              padding: EdgeInsets.all(2.0),
+                              padding: EdgeInsets.all(5.0),
                               child: TextButton(
                                 onPressed: () {
                                   Navigator.push(
@@ -104,6 +104,7 @@ class _StuclassListState extends State<StuclassList> {
                                     MaterialPageRoute(
                                       builder: (context) {
                                         return StuCheck(
+                                          student_id: student_id,
                                           class_name: item.class_name,
                                           course_id: item.course_id,
                                         );
@@ -114,7 +115,7 @@ class _StuclassListState extends State<StuclassList> {
                                 child: Text(
                                   item.class_name,
                                   style: TextStyle(
-                                    fontSize: 18,
+                                    fontSize: 22,
                                     color: mainColor,
                                     fontWeight: FontWeight.bold,
                                   ),

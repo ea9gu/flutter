@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ea9gu/constants.dart';
+import 'package:ea9gu/Components/dialog.dart';
+import 'package:ea9gu/api/add_device.dart';
 import 'dart:async';
 import 'dart:io';
 import 'package:flutter_sound/flutter_sound.dart';
@@ -9,10 +11,15 @@ import 'package:http_parser/http_parser.dart';
 import 'dart:convert';
 
 class StuCheck extends StatefulWidget {
+  final String student_id;
   final String class_name;
   final String course_id;
 
-  StuCheck({required this.class_name, required this.course_id, Key? key})
+  StuCheck(
+      {required this.student_id,
+      required this.class_name,
+      required this.course_id,
+      Key? key})
       : super(key: key);
 
   @override
@@ -20,7 +27,6 @@ class StuCheck extends StatefulWidget {
 }
 
 class _StuCheckState extends State<StuCheck> with TickerProviderStateMixin {
-  bool flag = false; //임시 변수
   bool isCheckButtonEnabled = false;
   bool isCheckButtonPressed = false;
   bool isAttendanceChecking = false;
@@ -96,6 +102,24 @@ class _StuCheckState extends State<StuCheck> with TickerProviderStateMixin {
       }
     } else {
       print('Failed to send data');
+    }
+  }
+
+  Future<bool> getCurrentDevice() async {
+    final response = await getCurrentDeviceInfo(
+      widget.student_id,
+    );
+
+    final responseData = jsonDecode(response.body);
+    //print(responseData);
+    final status = responseData['status'];
+
+    if (status == 'success') {
+      return true;
+    } else {
+      DialogFormat.customDialog(
+          context: context, title: "Error", content: "기기등록을 먼저 진행해주세요.");
+      return false;
     }
   }
 
@@ -202,14 +226,17 @@ class _StuCheckState extends State<StuCheck> with TickerProviderStateMixin {
                       alignment: Alignment.center,
                       child: ElevatedButton(
                         onPressed: isAttendanceChecking && !isCheckButtonPressed
-                            ? () {
-                                flag == false ? flag = true : flag = false;
-                                setState(() {
-                                  toggleCheckButton();
-                                  isCheckButtonEnabled = true;
-                                  checkButtonBackgroundColor = darkColor;
-                                  checkButtonTextColor = Colors.white;
-                                });
+                            ? () async {
+                                bool isDeviceRegistered =
+                                    await getCurrentDevice();
+                                isDeviceRegistered == true
+                                    ? setState(() {
+                                        toggleCheckButton();
+                                        isCheckButtonEnabled = true;
+                                        checkButtonBackgroundColor = darkColor;
+                                        checkButtonTextColor = Colors.white;
+                                      })
+                                    : "";
                               }
                             : null,
                         style: ElevatedButton.styleFrom(
@@ -264,128 +291,23 @@ class _StuCheckState extends State<StuCheck> with TickerProviderStateMixin {
                 Column(
                   children: [
                     SizedBox(height: 20),
-                    flag == false ? AttendanceTable2() : AttendanceTable3(),
-                    flag == false
-                        ? Container(
-                            width: 250,
-                            height: 50,
-                            color: mainColor,
-                            child: Center(
-                              child: Text(
-                                "출석 2회, 결석 1회",
-                                style: TextStyle(color: Colors.white),
-                              ),
-                            ),
-                          )
-                        : Container(
-                            width: 250,
-                            height: 50,
-                            color: mainColor,
-                            child: Center(
-                              child: Text(
-                                "출석 3회",
-                                style: TextStyle(color: Colors.white),
-                              ),
-                            ),
-                          ),
+                    Container(
+                      width: 250,
+                      height: 50,
+                      color: mainColor,
+                      child: Center(
+                        child: Text(
+                          "출석 2회, 결석 1회",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                    )
                   ],
                 )
               ],
             ),
           ),
         ],
-      ),
-    );
-  }
-}
-
-class AttendanceTable2 extends StatelessWidget {
-  final List<String> dates = ['23.05.12', '23.05.16', '23.05.19'];
-  final List<String> attendances = ['출석', '출석', '결석'];
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(vertical: 24.0), // 행들 사이의 여백 설정
-      child: DataTable(
-        columns: const <DataColumn>[
-          DataColumn(
-            label: Text(
-              '날짜',
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-          ),
-          DataColumn(
-            label: Text(
-              '출결',
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-          ),
-        ],
-        rows: List<DataRow>.generate(dates.length, (index) {
-          return DataRow(
-            cells: <DataCell>[
-              DataCell(
-                Container(
-                  alignment: Alignment.center,
-                  child: Text(dates[index]),
-                ),
-              ),
-              DataCell(
-                Container(
-                  alignment: Alignment.center,
-                  child: Text(attendances[index]),
-                ),
-              ),
-            ],
-          );
-        }),
-      ),
-    );
-  }
-}
-
-class AttendanceTable3 extends StatelessWidget {
-  final List<String> dates = ['23.05.12', '23.05.16', '23.05.19'];
-  final List<String> attendances = ['출석', '출석', '출석'];
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(vertical: 24.0), // 행들 사이의 여백 설정
-      child: DataTable(
-        columns: const <DataColumn>[
-          DataColumn(
-            label: Text(
-              '날짜',
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-          ),
-          DataColumn(
-            label: Text(
-              '출결',
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-          ),
-        ],
-        rows: List<DataRow>.generate(dates.length, (index) {
-          return DataRow(
-            cells: <DataCell>[
-              DataCell(
-                Container(
-                  alignment: Alignment.center,
-                  child: Text(dates[index]),
-                ),
-              ),
-              DataCell(
-                Container(
-                  alignment: Alignment.center,
-                  child: Text(attendances[index]),
-                ),
-              ),
-            ],
-          );
-        }),
       ),
     );
   }
