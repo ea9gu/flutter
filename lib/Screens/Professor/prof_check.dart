@@ -32,6 +32,11 @@ class _CheckState extends State<Check> with TickerProviderStateMixin {
 
   String? tab = '출석체크'; //무슨 탭인가
 
+  String? studentId;
+  Map<String, int> attendanceData = {};
+  List<String> attendanceOptions = ['출석', '결석'];
+  String? error;
+
   final player = AudioPlayer();
 
   late TabController _tabController;
@@ -40,6 +45,7 @@ class _CheckState extends State<Check> with TickerProviderStateMixin {
   void initState() {
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
+    attendanceData = {};
   }
 
   @override
@@ -49,7 +55,7 @@ class _CheckState extends State<Check> with TickerProviderStateMixin {
   }
 
   void proCheck() async {
-    var url = 'http://10.0.2.2:8000/freq/generate-freq/';
+    var url = 'http://localhost:8000/freq/generate-freq/';
     var data = {
       'optiontime': selectedOptiontime,
       'optionlate': selectedOptionlate,
@@ -88,6 +94,39 @@ class _CheckState extends State<Check> with TickerProviderStateMixin {
       }
     } else {
       print('Failed to send data');
+    }
+  }
+
+  void fetchAttendanceData() async {
+    var url = 'http://localhost:8000/class/get-attendance-data/';
+    var data = {
+      'course_id': widget.course_id.toString(),
+      'student_id': studentId.toString(),
+    };
+    print(data);
+
+    try {
+      var response = await http.post(
+        Uri.parse(url),
+        body: data,
+      );
+      print(response.body);
+
+      if (response.statusCode == 200) {
+        var data = json.decode(response.body);
+        setState(() {
+          attendanceData = Map<String, int>.from(data);
+          error = null;
+        });
+      } else {
+        setState(() {
+          error = 'Failed to fetch attendance data.';
+        });
+      }
+    } catch (e) {
+      setState(() {
+        error = 'An error occurred: $e';
+      });
     }
   }
 
@@ -225,17 +264,25 @@ class _CheckState extends State<Check> with TickerProviderStateMixin {
                             ),
                             child: TextField(
                               decoration: InputDecoration(
-                                hintText: "학번 또는 이름을 검색해주세요.",
+                                hintText: "학번을 입력하세요.",
                                 border: InputBorder.none,
                               ),
                               onChanged: (value) {
-                                // 검색어 변경 시 동작
+                                setState(() {
+                                  studentId = value;
+                                });
                               },
                             ),
                           ),
                           IconButton(
                             onPressed: () {
-                              // 검색 아이콘 클릭 시 동작
+                              if (studentId != null) {
+                                fetchAttendanceData();
+                              } else {
+                                setState(() {
+                                  error = 'Please enter a student ID.';
+                                });
+                              }
                             },
                             icon: Icon(Icons.search),
                             color: mainColor,
@@ -243,7 +290,52 @@ class _CheckState extends State<Check> with TickerProviderStateMixin {
                           ),
                         ],
                       ),
+                    ),
+                  if (error != null)
+                    Text(
+                      'Error: $error',
+                      style: TextStyle(color: Colors.red),
                     )
+                  else if (attendanceData.isNotEmpty)
+                    Expanded(
+                      child: DataTable(
+                        columns: [
+                          DataColumn(label: Text('날짜')),
+                          DataColumn(label: Text('출석여부')),
+                        ],
+                        rows: attendanceData.entries.map((entry) {
+                          final date = entry.key;
+                          String attendanceStatus =
+                              entry.value == 1 ? '출석' : '결석';
+
+                          return DataRow(
+                            cells: [
+                              DataCell(Text(date)),
+                              DataCell(
+                                DropdownButton(
+                                  value: attendanceStatus,
+                                  onChanged: (String? newValue) {
+                                    setState(() {
+                                      attendanceData[date] =
+                                          newValue == '출석' ? 1 : 0;
+                                      print(newValue);
+                                    });
+                                  },
+                                  items: attendanceOptions.map((option) {
+                                    return DropdownMenuItem<String>(
+                                      value: option,
+                                      child: Text(option),
+                                    );
+                                  }).toList(),
+                                ),
+                              ),
+                            ],
+                          );
+                        }).toList(),
+                      ),
+                    )
+                  else
+                    Text('No attendance data found.'),
                 ],
               )
             ]),
