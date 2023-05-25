@@ -37,7 +37,7 @@ class _ProclassListState extends State<ProclassList> {
   Future<void> fetchProCourses() async {
     print(prof_id);
     final url = Uri.parse(
-        'http://10.0.2.2:8000/class/prof-course/?professor_id=${prof_id}');
+        'http://13.124.69.1:8000/class/prof-course/?professor_id=${prof_id}');
     try {
       final response = await http.get(url);
       if (response.statusCode == 200) {
@@ -63,6 +63,7 @@ class _ProclassListState extends State<ProclassList> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
           title: Text('나의 강좌'),
