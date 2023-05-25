@@ -472,7 +472,8 @@ class _CheckState extends State<Check> with TickerProviderStateMixin {
                       'Error: $error',
                       style: TextStyle(color: Colors.red),
                     )
-                  else if (attendanceData.isNotEmpty)
+                  else if (attendanceData.isNotEmpty &&
+                      selectedViewOption == "학생별")
                     Expanded(
                       child: DataTable(
                         columns: [
@@ -519,8 +520,6 @@ class _CheckState extends State<Check> with TickerProviderStateMixin {
                         }).toList(),
                       ),
                     )
-                  else
-                    Text('No attendance data found.'),
                 ],
               )
             ]),
