@@ -10,6 +10,7 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:ea9gu/Components/dropdown.dart';
 import 'package:ea9gu/Components/date_attend_table.dart';
 import 'package:ea9gu/api/attend_list.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 
 class Check extends StatefulWidget {
@@ -65,6 +66,7 @@ class _CheckState extends State<Check> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
+    //initializeDateFormatting('ko_KR');
     todaydate = getCurrentDate();
     getDateData();
     _tabController = TabController(length: 2, vsync: this);
@@ -92,9 +94,12 @@ class _CheckState extends State<Check> with TickerProviderStateMixin {
   }
 
   String getCurrentDate() {
-    var now = DateTime.now();
+    //initializeDateFormatting('ko_KR');
+    var now = DateTime.now().toLocal();
+    DateTime afterAddingHours = now.add(Duration(hours: 9));
+    print(now);
     var formatter = DateFormat('yyyy-MM-dd');
-    return formatter.format(now);
+    return formatter.format(afterAddingHours);
   }
 
   void proCheck() async {
