@@ -20,7 +20,7 @@ class Check extends StatefulWidget {
 }
 
 class _CheckState extends State<Check> with TickerProviderStateMixin {
-  List<String> optiontime = ['5분', '10분', '15분'];
+  List<String> activation_duration = ['5분', '10분', '15분'];
   List<String> optionlate = ['지각 O', '지각 X'];
 
   List<String> viewoption = ['날짜별', '학생별'];
@@ -64,45 +64,54 @@ class _CheckState extends State<Check> with TickerProviderStateMixin {
   }
 
   void proCheck() async {
-    var url = 'http://localhost:8000/freq/generate-freq/';
-    var data = {
-      'optiontime': selectedOptiontime,
-      'optionlate': selectedOptionlate,
-      'course_id': widget.course_id,
-    };
+    var selectedOptiontime = '10분'; // 예시로 선택한 값
 
-    var response = await http.post(
-      Uri.parse(url),
-      body: jsonEncode(data),
-      headers: {'Content-Type': 'application/json'},
-    );
+    if (selectedOptiontime != null) {
+      var timeString =
+          selectedOptiontime.replaceAll('분', ''); // '10분'에서 '분' 문자열 제거
+      var minutes = int.tryParse(timeString); // 문자열을 정수로 변환 (오류 처리 포함)
 
-    if (response.statusCode == 200) {
-      print('Data sent successfully');
-      var fileLink = jsonDecode(response.body)['file_url'];
-      if (fileLink != null) {
-        print(response);
-        player.play(AssetSource('audio_20000.wav'));
-        showDialog(
-            context: context,
-            builder: (context) {
-              return AlertDialog(
-                content: Text('출석체크가 시작되었습니다'),
-                actions: <Widget>[
-                  ElevatedButton(
-                    child: Text('OK'),
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                  ),
-                ],
-              );
-            });
+      if (minutes != null) {
+        var url =
+            'http://localhost:8000/freq/generate-freq/?course_id=${widget.course_id}&activation_duration=$minutes';
+
+        var response = await http.get(Uri.parse(url));
+
+        if (response.statusCode == 200) {
+          print('Data sent successfully');
+          var fileLink = jsonDecode(response.body)['file_url'];
+          if (fileLink != null) {
+            print(response);
+            player.play(AssetSource('audio_20000.wav'));
+            showDialog(
+              context: context,
+              builder: (context) {
+                return AlertDialog(
+                  content: Text('출석체크가 시작되었습니다'),
+                  actions: <Widget>[
+                    ElevatedButton(
+                      child: Text('OK'),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                  ],
+                );
+              },
+            );
+          } else {
+            print('Invalid file URL');
+          }
+        } else {
+          print('Failed to send data');
+        }
       } else {
-        print('Invalid file URL');
+        print('Invalid duration');
+        // 오류 처리 코드 추가
       }
     } else {
-      print('Failed to send data');
+      print('selectedOptiontime is null');
+      // 오류 처리 코드 추가
     }
   }
 
@@ -261,7 +270,7 @@ class _CheckState extends State<Check> with TickerProviderStateMixin {
                         children: [
                           CustomDropdownButton(
                             hint: "출석 시간 설정",
-                            items: optiontime,
+                            items: activation_duration,
                             value: selectedOptiontime,
                             onChanged: (String? newValue) {
                               setState(() {
