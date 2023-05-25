@@ -89,7 +89,7 @@ class _AttendanceTableState extends State<AttendanceTable> {
             'aft_att': isAttendance,
           };
           var response = await http.post(
-            Uri.parse('http://localhost:8000/class/fix-attendance/'),
+            Uri.parse('http://13.124.69.1:8000/class/fix-attendance/'),
             body: body,
           );
 

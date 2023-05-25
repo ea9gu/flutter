@@ -79,7 +79,7 @@ class _StuCheckState extends State<StuCheck> with TickerProviderStateMixin {
   }
 
   Future<void> _sendAudioFile(File file) async {
-    final url = Uri.parse('http://localhost:8000/freq/save-attendance/');
+    final url = Uri.parse('http://13.124.69.1:8000/freq/save-attendance/');
     final request = http.MultipartRequest('POST', url);
     final fileBytes = await file.readAsBytes();
     request.files.add(await http.MultipartFile.fromBytes(
@@ -131,7 +131,7 @@ class _StuCheckState extends State<StuCheck> with TickerProviderStateMixin {
   }
 
   Future<void> checkAttendanceStatus() async {
-    final url2 = Uri.parse('http://localhost:8000/class/activate-signal/');
+    final url2 = Uri.parse('http://13.124.69.1:8000/class/activate-signal/');
     final request2 = http.MultipartRequest('POST', url2);
     request2.fields['student_id'] =
         widget.student_id; // Replace with current user ID
@@ -179,7 +179,7 @@ class _StuCheckState extends State<StuCheck> with TickerProviderStateMixin {
   }
 
   void fetchAttendanceData() async {
-    var url = 'http://localhost:8000/class/get-attendance-data/';
+    var url = 'http://13.124.69.1:8000/class/get-attendance-data/';
     var data = {
       'course_id': widget.course_id.toString(),
       'student_id': widget.student_id.toString(),

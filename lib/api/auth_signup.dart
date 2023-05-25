@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 
 Future<http.Response> signUp(String username, String name, bool flag,
     String password1, String password2) async {
-  final url = Uri.parse('http://localhost:8000/user/account/signup/');
+  final url = Uri.parse('http://13.124.69.1:8000/user/account/signup/');
   final headers = {'Content-Type': 'application/json'};
   final body = json.encode({
     'username': username,
@@ -19,7 +19,7 @@ Future<http.Response> signUp(String username, String name, bool flag,
 }
 
 Future<http.Response> login(String username, String password) async {
-  final url = Uri.parse('http://localhost:8000/user/account/mylogin/');
+  final url = Uri.parse('http://13.124.69.1:8000/user/account/mylogin/');
   final headers = {'Content-Type': 'application/json'};
   final body = json.encode({
     'username': username,
