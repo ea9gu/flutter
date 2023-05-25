@@ -69,7 +69,7 @@ class classPlusScreenState extends State<classPlus> {
   Future<void> enrollStudents() async {
     _formKey.currentState!.save();
     final url = Uri.parse(
-        'http://10.0.2.2:8000/class/create-and-enroll/'); // Replace with your DRF server URL
+        'http://localhost:8000/class/create-and-enroll/'); // Replace with your DRF server URL
 
     try {
       var request = http.MultipartRequest('POST', url);

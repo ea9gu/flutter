@@ -64,7 +64,7 @@ class _CheckState extends State<Check> with TickerProviderStateMixin {
   }
 
   void proCheck() async {
-    var url = 'http://10.0.2.2:8000/freq/generate-freq/';
+    var url = 'http://localhost:8000/freq/generate-freq/';
     var data = {
       'optiontime': selectedOptiontime,
       'optionlate': selectedOptionlate,
@@ -139,7 +139,7 @@ class _CheckState extends State<Check> with TickerProviderStateMixin {
 
   void fixAttendance(String courseId, String date, String studentId,
       String beforeAttendance, String afterAttendance) async {
-    var url = 'http://10.0.2.2:8000/class/fix-attendance/';
+    var url = 'http://localhost:8000/class/fix-attendance/';
     var data = {
       'course_id': courseId,
       'date': date,
@@ -166,7 +166,7 @@ class _CheckState extends State<Check> with TickerProviderStateMixin {
   }
 
   void fetchAttendanceData() async {
-    var url = 'http://10.0.2.2:8000/class/get-attendance-data/';
+    var url = 'http://localhost:8000/class/get-attendance-data/';
     var data = {
       'course_id': widget.course_id.toString(),
       'student_id': studentId.toString(),

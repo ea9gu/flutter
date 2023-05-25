@@ -3,7 +3,7 @@ import 'dart:convert';
 
 Future<http.Response> addDevice(
     String student_id, String deviceType, String deviceSerial) async {
-  final url = Uri.parse('http://10.0.2.2:8000/serial/save-device/');
+  final url = Uri.parse('http://localhost:8000/serial/save-device/');
 
   final response = await http.post(
     url,
@@ -19,7 +19,7 @@ Future<http.Response> addDevice(
 }
 
 Future<http.Response> getCurrentDeviceInfo(String student_id) async {
-  final url = Uri.parse('http://10.0.2.2:8000/serial/get-device/');
+  final url = Uri.parse('http://localhost:8000/serial/get-device/');
 
   final response = await http.post(
     url,
