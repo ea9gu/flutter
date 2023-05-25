@@ -108,8 +108,7 @@ class _StuCheckState extends State<StuCheck> with TickerProviderStateMixin {
       print('Data sent successfully');
       final responseData = await response.stream.bytesToString();
       final parsedResponse = jsonDecode(responseData);
-      if (parsedResponse['status'] == 'error') {
-        //원래는 success로 고치기
+      if (parsedResponse['status'] == 'success') {
         setState(() {
           isCheckButtonPressed = true;
           boxBackgroundColor = mainColor;
