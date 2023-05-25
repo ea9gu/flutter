@@ -62,6 +62,7 @@ class _StuclassListState extends State<StuclassList> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
           title: Text('나의 강좌'),
