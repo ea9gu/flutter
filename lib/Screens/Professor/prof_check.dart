@@ -40,6 +40,10 @@ class _CheckState extends State<Check> with TickerProviderStateMixin {
 
   Map<String, dynamic> attenddata = {};
   List<dynamic> attendname = [];
+  String? studentId;
+  Map<String, int> attendanceData = {};
+  List<String> attendanceOptions = ['출석', '결석'];
+  String? error;
 
   final player = AudioPlayer();
 
@@ -50,6 +54,7 @@ class _CheckState extends State<Check> with TickerProviderStateMixin {
     super.initState();
     getDateData();
     _tabController = TabController(length: 2, vsync: this);
+    attendanceData = {};
   }
 
   @override
@@ -129,6 +134,72 @@ class _CheckState extends State<Check> with TickerProviderStateMixin {
       if (selectedOptiondate != null) {
         setState(() {});
       }
+    }
+  }
+
+  void fixAttendance(String courseId, String date, String studentId,
+      String beforeAttendance, String afterAttendance) async {
+    var url = 'http://10.0.2.2:8000/class/fix-attendance/';
+    var data = {
+      'course_id': courseId,
+      'date': date,
+      'student_id': studentId,
+      'bef_att': beforeAttendance,
+      'aft_att': afterAttendance,
+    };
+
+    var response = await http.post(
+      Uri.parse(url),
+      body: data,
+    );
+
+    if (response.statusCode == 200) {
+      var responseData = json.decode(response.body);
+      if (responseData.containsKey('success')) {
+        print('Attendance fixed successfully.');
+      } else if (responseData.containsKey('error')) {
+        print(responseData['error']);
+      }
+    } else {
+      print('Failed to fix attendance.');
+    }
+  }
+
+  void fetchAttendanceData() async {
+    var url = 'http://10.0.2.2:8000/class/get-attendance-data/';
+    var data = {
+      'course_id': widget.course_id.toString(),
+      'student_id': studentId.toString(),
+    };
+    print(data);
+
+    try {
+      var response = await http.post(
+        Uri.parse(url),
+        body: data,
+      );
+      print(response.body);
+
+      if (response.statusCode == 200) {
+        var responseData = json.decode(response.body);
+        var attendanceDataMap =
+            Map<String, int>.from(responseData['attendance_data']);
+        var attendanceDates = List<String>.from(responseData['dates']);
+        setState(() {
+          attendanceData = attendanceDataMap;
+          attendanceOptions = ['출석', '결석'];
+          optiondate = attendanceDates;
+          error = null;
+        });
+      } else {
+        setState(() {
+          error = 'Failed to fetch attendance data.';
+        });
+      }
+    } catch (e) {
+      setState(() {
+        error = 'An error occurred: $e';
+      });
     }
   }
 
@@ -279,17 +350,25 @@ class _CheckState extends State<Check> with TickerProviderStateMixin {
                             ),
                             child: TextField(
                               decoration: InputDecoration(
-                                hintText: "학번 또는 이름을 검색해주세요.",
+                                hintText: "학번을 입력하세요.",
                                 border: InputBorder.none,
                               ),
                               onChanged: (value) {
-                                // 검색어 변경 시 동작
+                                setState(() {
+                                  studentId = value;
+                                });
                               },
                             ),
                           ),
                           IconButton(
                             onPressed: () {
-                              // 검색 아이콘 클릭 시 동작
+                              if (studentId != null) {
+                                fetchAttendanceData();
+                              } else {
+                                setState(() {
+                                  error = 'Please enter a student ID.';
+                                });
+                              }
                             },
                             icon: Icon(Icons.search),
                             color: mainColor,
@@ -304,6 +383,60 @@ class _CheckState extends State<Check> with TickerProviderStateMixin {
                         course_id: widget.course_id,
                         name: attendname,
                         date: selectedOptiondate ?? ''),
+                  if (error != null)
+                    Text(
+                      'Error: $error',
+                      style: TextStyle(color: Colors.red),
+                    )
+                  else if (attendanceData.isNotEmpty)
+                    Expanded(
+                      child: DataTable(
+                        columns: [
+                          DataColumn(label: Text('날짜')),
+                          DataColumn(label: Text('출석여부')),
+                        ],
+                        rows: attendanceData.entries.map((entry) {
+                          final date = entry.key;
+                          String attendanceStatus =
+                              entry.value == 1 ? '출석' : '결석';
+
+                          return DataRow(
+                            cells: [
+                              DataCell(Text(date)),
+                              DataCell(
+                                DropdownButton(
+                                  value: attendanceStatus,
+                                  onChanged: (String? newValue) {
+                                    setState(() {
+                                      String beforeAttendance =
+                                          entry.value == 1 ? 'True' : 'False';
+                                      String afterAttendance =
+                                          newValue == '출석' ? 'True' : 'False';
+                                      attendanceData[date] =
+                                          newValue == '출석' ? 1 : 0;
+                                      fixAttendance(
+                                          widget.course_id,
+                                          date,
+                                          studentId!,
+                                          beforeAttendance,
+                                          afterAttendance);
+                                    });
+                                  },
+                                  items: attendanceOptions.map((option) {
+                                    return DropdownMenuItem<String>(
+                                      value: option,
+                                      child: Text(option),
+                                    );
+                                  }).toList(),
+                                ),
+                              ),
+                            ],
+                          );
+                        }).toList(),
+                      ),
+                    )
+                  else
+                    Text('No attendance data found.'),
                 ],
               )
             ]),
