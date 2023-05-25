@@ -12,6 +12,7 @@ import 'package:ea9gu/Components/validate.dart';
 import 'package:ea9gu/Components/dialog.dart';
 import 'package:ea9gu/api/auth_signup.dart';
 import 'package:ea9gu/Screens/Professor/Login/pro_login.dart';
+import 'package:ea9gu/Components/trans_app_bar.dart';
 import 'dart:convert';
 
 class stuLogin extends StatefulWidget {
@@ -94,6 +95,7 @@ class _LoginPageState extends State<stuLogin> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
+        appBar: TransparentAppBar(),
         body: Container(
             padding: const EdgeInsets.all(16.0),
             height: size.height,
@@ -104,11 +106,11 @@ class _LoginPageState extends State<stuLogin> {
                 child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      SizedBox(height: size.height * 0.2),
+                      SizedBox(height: size.height * 0.1),
                       Row(
                         children: <Widget>[
                           Container(
-                            padding: EdgeInsets.symmetric(horizontal: 40),
+                            padding: EdgeInsets.symmetric(horizontal: 15),
                             child: Text(
                               "학생용 로그인하기",
                               style: TextStyle(
@@ -131,6 +133,7 @@ class _LoginPageState extends State<stuLogin> {
                         validator: (value) =>
                             Validate().validatePassword(value),
                       ),
+                      /*
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
@@ -167,6 +170,7 @@ class _LoginPageState extends State<stuLogin> {
                           ),
                         ],
                       ),
+                      */
                       SizedBox(height: size.height * 0.2),
                       NextButton(
                           text: "로그인하기",

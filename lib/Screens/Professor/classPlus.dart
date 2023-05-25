@@ -143,7 +143,7 @@ class classPlusScreenState extends State<classPlus> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('나의 강좌'),
+          title: Text('강좌 추가'),
           centerTitle: true,
           backgroundColor: Color(0xff8685A6),
           actions: [

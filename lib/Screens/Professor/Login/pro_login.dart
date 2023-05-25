@@ -1,5 +1,5 @@
 import 'package:ea9gu/Components/accountcheck.dart';
-import 'package:ea9gu/Components/findlost.dart';
+import 'package:ea9gu/Components/back_button.dart';
 import 'package:ea9gu/Components/next_button.dart';
 import 'package:ea9gu/Components/input_form.dart';
 import 'package:ea9gu/Components/passwordfield.dart';
@@ -11,6 +11,7 @@ import 'package:ea9gu/Screens/Student/Login/stu_login.dart';
 import 'package:flutter/material.dart';
 import 'package:ea9gu/Components/validate.dart';
 import 'package:ea9gu/Components/dialog.dart';
+import 'package:ea9gu/Components/trans_app_bar.dart';
 import 'package:ea9gu/api/auth_signup.dart';
 import 'dart:convert';
 
@@ -116,6 +117,7 @@ class _LoginPageState extends State<ProfLogin> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
+        appBar: TransparentAppBar(),
         body: Container(
             height: size.height,
             width: double.infinity,
@@ -126,11 +128,11 @@ class _LoginPageState extends State<ProfLogin> {
                 child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      SizedBox(height: size.height * 0.2),
+                      SizedBox(height: size.height * 0.1),
                       Row(
                         children: <Widget>[
                           Container(
-                            padding: EdgeInsets.symmetric(horizontal: 40),
+                            padding: EdgeInsets.symmetric(horizontal: 15),
                             child: Text(
                               "교수용 로그인하기",
                               style: TextStyle(
@@ -154,6 +156,7 @@ class _LoginPageState extends State<ProfLogin> {
                         validator: (value) =>
                             Validate().validatePassword(value),
                       ),
+                      /*
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
@@ -190,6 +193,7 @@ class _LoginPageState extends State<ProfLogin> {
                           ),
                         ],
                       ),
+                      */
                       SizedBox(height: size.height * 0.2),
                       NextButton(
                           text: "로그인하기",
