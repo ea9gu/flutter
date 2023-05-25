@@ -87,6 +87,7 @@ class _StuCheckState extends State<StuCheck> with TickerProviderStateMixin {
     final audioFile = File(path!);
     print('$audioFile');
     await _sendAudioFile(audioFile);
+    fetchAttendanceData();
   }
 
   Future<void> _sendAudioFile(File file) async {
@@ -102,6 +103,9 @@ class _StuCheckState extends State<StuCheck> with TickerProviderStateMixin {
     request.fields['student_id'] =
         widget.student_id; // Replace with current user ID
     request.fields['course_id'] = widget.course_id;
+    DateTime currentDate = DateTime.now();
+    String formattedDate = currentDate.toIso8601String().split('T')[0];
+    request.fields['date'] = formattedDate;
     final response = await request.send();
 
     if (response.statusCode == 200) {
@@ -109,6 +113,7 @@ class _StuCheckState extends State<StuCheck> with TickerProviderStateMixin {
       final responseData = await response.stream.bytesToString();
       final parsedResponse = jsonDecode(responseData);
       if (parsedResponse['status'] == 'success') {
+        //원래는 success로 고치기
         setState(() {
           isCheckButtonPressed = true;
           boxBackgroundColor = mainColor;
@@ -166,8 +171,9 @@ class _StuCheckState extends State<StuCheck> with TickerProviderStateMixin {
         setState(() {
           isAttendanceChecking = true;
           stateText = '출석체크 중';
+          fetchAttendanceData();
         });
-        fetchAttendanceData();
+        // fetchAttendanceData();
       } else if (parsedResponse['status'] == 'bluecheck') {
         setState(() {
           isAttendanceChecking = false;
@@ -190,6 +196,7 @@ class _StuCheckState extends State<StuCheck> with TickerProviderStateMixin {
           _stopRecording().then((_) {
             setState(() {
               stateText = '출석체크 완료';
+              fetchAttendanceData();
             });
           });
         });
