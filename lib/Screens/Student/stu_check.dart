@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ea9gu/constants.dart';
 import 'package:ea9gu/Components/dialog.dart';
+import 'package:ea9gu/device_info.dart';
 import 'package:ea9gu/api/add_device.dart';
 import 'dart:async';
 import 'dart:io';
@@ -42,6 +43,9 @@ class _StuCheckState extends State<StuCheck> with TickerProviderStateMixin {
   List<String> attendanceOptions = ['출석', '결석'];
   late TabController _tabController;
 
+  Map<String, String> deviceInfo = {};
+  String current_id = "";
+
   @override
   void initState() {
     super.initState();
@@ -49,6 +53,7 @@ class _StuCheckState extends State<StuCheck> with TickerProviderStateMixin {
     _audioRecorder.openRecorder();
     _tabController = TabController(length: 2, vsync: this);
     attendanceData = {};
+    _getDeviceInfo();
   }
 
   @override
@@ -56,6 +61,12 @@ class _StuCheckState extends State<StuCheck> with TickerProviderStateMixin {
     _tabController.dispose();
     _audioRecorder.closeRecorder();
     super.dispose();
+  }
+
+  Future<void> _getDeviceInfo() async {
+    deviceInfo = await getDeviceInfo();
+    setState(() {});
+    print(deviceInfo);
   }
 
   Future<void> _initAudioRecorder() async {
@@ -122,6 +133,15 @@ class _StuCheckState extends State<StuCheck> with TickerProviderStateMixin {
     final status = responseData['status'];
 
     if (status == 'success') {
+      setState(() {
+        current_id = responseData['device_id'];
+      });
+      print(current_id);
+      if (current_id != deviceInfo['device_id']) {
+        DialogFormat.customDialog(
+            context: context, title: "Error", content: "등록된 기기가 아닙니다.");
+        return false;
+      }
       return true;
     } else {
       DialogFormat.customDialog(
