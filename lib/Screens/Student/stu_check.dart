@@ -38,15 +38,22 @@ class _StuCheckState extends State<StuCheck> with TickerProviderStateMixin {
   String boxText = '출석체크하기';
   String stateText = '출석체크 중이 아닙니다';
 
+  Map<String, int> attendanceData = {};
+  List<String> attendanceOptions = ['출석', '결석'];
+  late TabController _tabController;
+
   @override
   void initState() {
     super.initState();
     checkAttendanceStatus();
     _audioRecorder.openRecorder();
+    _tabController = TabController(length: 2, vsync: this);
+    attendanceData = {};
   }
 
   @override
   void dispose() {
+    _tabController.dispose();
     _audioRecorder.closeRecorder();
     super.dispose();
   }
@@ -81,9 +88,9 @@ class _StuCheckState extends State<StuCheck> with TickerProviderStateMixin {
       filename: 'audio_file',
       contentType: MediaType('audio', 'wav'),
     ));
-    request.fields['student_id'] = 'stu_id'; // Replace with current user ID
+    request.fields['student_id'] =
+        widget.student_id; // Replace with current user ID
     request.fields['course_id'] = widget.course_id;
-    request.fields['date'] = DateTime.now().toString();
     final response = await request.send();
 
     if (response.statusCode == 200) {
@@ -126,7 +133,8 @@ class _StuCheckState extends State<StuCheck> with TickerProviderStateMixin {
   Future<void> checkAttendanceStatus() async {
     final url2 = Uri.parse('http://localhost:8000/class/activate-signal/');
     final request2 = http.MultipartRequest('POST', url2);
-    request2.fields['student_id'] = 'stu_id'; // Replace with current user ID
+    request2.fields['student_id'] =
+        widget.student_id; // Replace with current user ID
     request2.fields['course_id'] = widget.course_id;
     final response2 = await request2.send();
 
@@ -140,6 +148,7 @@ class _StuCheckState extends State<StuCheck> with TickerProviderStateMixin {
           isAttendanceChecking = true;
           stateText = '출석체크 중';
         });
+        fetchAttendanceData();
       } else if (parsedResponse['status'] == 'bluecheck') {
         setState(() {
           isAttendanceChecking = false;
@@ -169,10 +178,40 @@ class _StuCheckState extends State<StuCheck> with TickerProviderStateMixin {
     });
   }
 
+  void fetchAttendanceData() async {
+    var url = 'http://localhost:8000/class/get-attendance-data/';
+    var data = {
+      'course_id': widget.course_id.toString(),
+      'student_id': widget.student_id.toString(),
+    };
+    print(data);
+
+    try {
+      var response = await http.post(
+        Uri.parse(url),
+        body: data,
+      );
+      print(response.body);
+
+      if (response.statusCode == 200) {
+        var responseData = json.decode(response.body);
+        var attendanceDataMap =
+            Map<String, int>.from(responseData['attendance_data']);
+        var attendanceDates = List<String>.from(responseData['dates']);
+        setState(() {
+          attendanceData = attendanceDataMap;
+          attendanceOptions = ['출석', '결석'];
+        });
+      }
+    } catch (e) {
+      setState(() {});
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    TabController _tabController = TabController(length: 2, vsync: this);
+    // TabController _tabController = TabController(length: 2, vsync: this);
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.class_name),
@@ -291,19 +330,40 @@ class _StuCheckState extends State<StuCheck> with TickerProviderStateMixin {
                 Column(
                   children: [
                     SizedBox(height: 20),
-                    Container(
-                      width: 250,
-                      height: 50,
-                      color: mainColor,
-                      child: Center(
-                        child: Text(
-                          "출석 2회, 결석 1회",
-                          style: TextStyle(color: Colors.white),
+                    // Container(
+                    //   width: 250,
+                    //   height: 50,
+                    //   color: mainColor,
+                    //   child: Center(
+                    //     child: Text(
+                    //       "출석 2회, 결석 1회",
+                    //       style: TextStyle(color: Colors.white),
+                    //     ),
+                    //   ),
+                    // )
+                    if (attendanceData.isNotEmpty)
+                      Expanded(
+                        child: DataTable(
+                          columns: [
+                            DataColumn(label: Text('날짜')),
+                            DataColumn(label: Text('출석여부')),
+                          ],
+                          rows: attendanceData.entries.map((entry) {
+                            final date = entry.key;
+                            String attendanceStatus =
+                                entry.value == 1 ? '출석' : '결석';
+
+                            return DataRow(
+                              cells: [
+                                DataCell(Text(date)),
+                                DataCell(Text(attendanceStatus)),
+                              ],
+                            );
+                          }).toList(),
                         ),
                       ),
-                    )
                   ],
-                )
+                ),
               ],
             ),
           ),
