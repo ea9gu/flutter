@@ -3,7 +3,7 @@ import 'dart:convert';
 
 Future<Map<String, dynamic>> fetchDateListData(String courseId) async {
   final url =
-      'http://localhost:8000/class/get-attendance-data/'; // API의 엔드포인트 URL로 대체해야 합니다.
+      'http://10.0.2.2:8000/class/get-attendance-data/'; // API의 엔드포인트 URL로 대체해야 합니다.
   final headers = {'Content-Type': 'application/x-www-form-urlencoded'};
   final body = {'course_id': courseId};
 
@@ -22,7 +22,7 @@ Future<Map<String, dynamic>> fetchDateListData(String courseId) async {
 Future<Map<String, dynamic>> fetchDateAttendanceData(
     String courseId, String? date) async {
   final url =
-      'http://localhost:8000/class/get-attendance-data/'; // API의 엔드포인트 URL로 대체해야 합니다.
+      'http://10.0.2.2:8000/class/get-attendance-data/'; // API의 엔드포인트 URL로 대체해야 합니다.
   final headers = {'Content-Type': 'application/x-www-form-urlencoded'};
   final body = {'course_id': courseId, 'date': date};
 

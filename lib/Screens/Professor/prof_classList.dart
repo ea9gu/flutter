@@ -37,7 +37,7 @@ class _ProclassListState extends State<ProclassList> {
   Future<void> fetchProCourses() async {
     print(prof_id);
     final url = Uri.parse(
-        'http://localhost:8000/class/prof-course/?professor_id=${prof_id}');
+        'http://10.0.2.2:8000/class/prof-course/?professor_id=${prof_id}');
     try {
       final response = await http.get(url);
       if (response.statusCode == 200) {
@@ -101,6 +101,7 @@ class _ProclassListState extends State<ProclassList> {
                                         return Check(
                                           class_name: item.class_name,
                                           course_id: item.course_id,
+                                          prof_id: prof_id,
                                         );
                                       },
                                     ),

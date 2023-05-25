@@ -37,7 +37,7 @@ class _StuclassListState extends State<StuclassList> {
   Future<void> fetchCourses() async {
     print(student_id);
     final url = Uri.parse(
-        'http://localhost:8000/class/student-course/?student_id=${student_id}');
+        'http://10.0.2.2:8000/class/student-course/?student_id=${student_id}');
     try {
       final response = await http.get(url);
       if (response.statusCode == 200) {

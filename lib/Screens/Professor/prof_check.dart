@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:ea9gu/Components/gobutton.dart';
 import 'package:ea9gu/constants.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -7,12 +10,18 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:ea9gu/Components/dropdown.dart';
 import 'package:ea9gu/Components/date_attend_table.dart';
 import 'package:ea9gu/api/attend_list.dart';
+import 'package:intl/intl.dart';
 
 class Check extends StatefulWidget {
   final String class_name;
   final String course_id;
+  final String prof_id;
 
-  Check({required this.class_name, required this.course_id, Key? key})
+  Check(
+      {required this.class_name,
+      required this.course_id,
+      required this.prof_id,
+      Key? key})
       : super(key: key);
 
   @override
@@ -32,35 +41,60 @@ class _CheckState extends State<Check> with TickerProviderStateMixin {
   String? selectedViewOption;
   String? selectedOptiondate;
 
-  final student_id = '2000001';
-  final courseId = '10000-1'; // 가져올 출석 데이터의 과목 ID로 대체해야 합니다.
-  final date = '2023-05-23';
-
   String? tab = '출석체크'; //무슨 탭인가
 
   Map<String, dynamic> attenddata = {};
   List<dynamic> attendname = [];
+  Map<String, dynamic> todayattenddata = {};
+  List<dynamic> todayattendname = [];
   String? studentId;
   Map<String, int> attendanceData = {};
   List<String> attendanceOptions = ['출석', '결석'];
   String? error;
+  bool isAttendanceStarted = false;
+  bool isChecking = false;
 
   final player = AudioPlayer();
 
   late TabController _tabController;
+  bool isButtonDisabled = false;
+  //bool? isTodayDateAvail;
+
+  String? todaydate;
 
   @override
   void initState() {
     super.initState();
+    todaydate = getCurrentDate();
     getDateData();
     _tabController = TabController(length: 2, vsync: this);
     attendanceData = {};
+    //isTodayDateAvail = isTodayDateAvailable();
+    //print(isTodayDateAvail);
   }
 
   @override
   void dispose() {
     _tabController.dispose();
     super.dispose();
+  }
+
+  bool isTodayDateAvailable() {
+    print(optiondate);
+    print(todaydate);
+    return optiondate.contains(todaydate);
+  }
+
+  void updateAttendanceTable() {
+    setState(() {
+      //isTodayDateAvail = isTodayDateAvailable(); // 변경된 값 확인
+    });
+  }
+
+  String getCurrentDate() {
+    var now = DateTime.now();
+    var formatter = DateFormat('yyyy-MM-dd');
+    return formatter.format(now);
   }
 
   void proCheck() async {
@@ -72,8 +106,11 @@ class _CheckState extends State<Check> with TickerProviderStateMixin {
       var minutes = int.tryParse(timeString); // 문자열을 정수로 변환 (오류 처리 포함)
 
       if (minutes != null) {
+        setState(() {
+          isButtonDisabled = true;
+        });
         var url =
-            'http://localhost:8000/freq/generate-freq/?course_id=${widget.course_id}&activation_duration=$minutes';
+            'http://10.0.2.2:8000/freq/generate-freq/?course_id=${widget.course_id}&activation_duration=$minutes';
 
         var response = await http.get(Uri.parse(url));
 
@@ -81,7 +118,7 @@ class _CheckState extends State<Check> with TickerProviderStateMixin {
           print('Data sent successfully');
           var fileLink = jsonDecode(response.body)['file_url'];
           if (fileLink != null) {
-            print(response);
+            //print(response);
             player.play(AssetSource('audio_20000.wav'));
             showDialog(
               context: context,
@@ -91,14 +128,23 @@ class _CheckState extends State<Check> with TickerProviderStateMixin {
                   actions: <Widget>[
                     ElevatedButton(
                       child: Text('OK'),
-                      onPressed: () {
+                      onPressed: () async {
                         Navigator.of(context).pop();
+                        await getDateData();
+                        updateAttendanceTable();
+                        getTodayAttendanceData();
                       },
                     ),
                   ],
                 );
               },
             );
+            // Set isAttendanceStarted to true
+            Timer(Duration(minutes: minutes), () {
+              setState(() {
+                isButtonDisabled = false;
+              });
+            });
           } else {
             print('Invalid file URL');
           }
@@ -115,14 +161,14 @@ class _CheckState extends State<Check> with TickerProviderStateMixin {
     }
   }
 
-  void getDateData() async {
+  Future<void> getDateData() async {
     //날짜 리스트
     final courseId = widget.course_id;
 
     final data = await fetchDateListData(courseId);
-    //print(data);
     setState(() {
       optiondate = List<String>.from(data['dates']);
+      getTodayAttendanceData();
     });
   }
 
@@ -136,19 +182,32 @@ class _CheckState extends State<Check> with TickerProviderStateMixin {
       setState(() {
         attenddata = data['attendance_data'];
         attendname = data['student_names'].values.toList();
-        print(attendname);
+        //print(attendname);
         //print(data);
       });
+    }
+  }
 
-      if (selectedOptiondate != null) {
-        setState(() {});
-      }
+  void getTodayAttendanceData() async {
+    //날짜별 출석부
+    final courseId = widget.course_id;
+    todaydate = getCurrentDate();
+
+    if (optiondate.contains(todaydate)) {
+      final data = await fetchDateAttendanceData(courseId, todaydate);
+      //print(data);
+
+      setState(() {
+        todayattenddata = data['attendance_data'];
+        todayattendname = data['student_names'].values.toList();
+        //print(attendname);]
+      });
     }
   }
 
   void fixAttendance(String courseId, String date, String studentId,
       String beforeAttendance, String afterAttendance) async {
-    var url = 'http://localhost:8000/class/fix-attendance/';
+    var url = 'http://10.0.2.2:8000/class/fix-attendance/';
     var data = {
       'course_id': courseId,
       'date': date,
@@ -175,19 +234,19 @@ class _CheckState extends State<Check> with TickerProviderStateMixin {
   }
 
   void fetchAttendanceData() async {
-    var url = 'http://localhost:8000/class/get-attendance-data/';
+    var url = 'http://10.0.2.2:8000/class/get-attendance-data/';
     var data = {
       'course_id': widget.course_id.toString(),
       'student_id': studentId.toString(),
     };
-    print(data);
+    //print(data);
 
     try {
       var response = await http.post(
         Uri.parse(url),
         body: data,
       );
-      print(response.body);
+      //print(response.body);
 
       if (response.statusCode == 200) {
         var responseData = json.decode(response.body);
@@ -292,19 +351,33 @@ class _CheckState extends State<Check> with TickerProviderStateMixin {
                         ],
                       ),
                       SizedBox(height: 60),
-                      GoButton(
-                          text: "출석체크하기",
-                          onpress: () {
-                            proCheck();
-                            setState(() {
-                              getDateData();
-                            });
-                          }),
-                      AttendanceTable(
-                          attendanceData: attenddata,
+                      Container(
+                        width: size.width * 0.8,
+                        child: TextButton(
+                          style: TextButton.styleFrom(
+                            padding: EdgeInsets.all(20),
+                            backgroundColor: mainColor,
+                            primary: Colors.white,
+                          ),
+                          onPressed: () {
+                            if (!isButtonDisabled) {
+                              setState(() {
+                                proCheck();
+                                getDateData();
+                                getTodayAttendanceData();
+                              });
+                            }
+                          },
+                          child: Text("출석체크하기"),
+                        ),
+                      ),
+                      if (isTodayDateAvailable())
+                        AttendanceTable(
+                          attendanceData: todayattenddata,
                           course_id: widget.course_id,
-                          name: attendname,
-                          date: selectedOptiondate ?? '')
+                          name: todayattendname,
+                          date: todaydate ?? '',
+                        ),
                     ],
                   ),
                   SizedBox(height: 20),
@@ -322,6 +395,7 @@ class _CheckState extends State<Check> with TickerProviderStateMixin {
                         onChanged: (String? newValue) async {
                           setState(() {
                             selectedViewOption = newValue!;
+                            getDateData();
                           });
                         },
                       ),
@@ -337,6 +411,7 @@ class _CheckState extends State<Check> with TickerProviderStateMixin {
                                 setState(() {
                                   selectedOptiondate = newValue!;
                                 });
+
                                 await getDateAttendanceData();
                               },
                             ),
