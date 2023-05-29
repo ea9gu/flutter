@@ -31,12 +31,28 @@ class Validate {
     return null;
   }
 
-  String? validateEmail(String? value) {
+  String? validateProfEmail(String? value) {
     if (value == null || value.isEmpty) {
       return '이메일을 입력해주세요.';
     }
     if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(value)) {
       return '유효한 이메일을 입력해주세요.';
+    }
+    if (!value.endsWith('@ewha.ac.kr')) {
+      return '이메일은 @ewha.ac.kr 도메인을 가져야 합니다.';
+    }
+    return null;
+  }
+
+  String? validateStuEmail(String? value) {
+    if (value == null || value.isEmpty) {
+      return '이메일을 입력해주세요.';
+    }
+    if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(value)) {
+      return '유효한 이메일을 입력해주세요.';
+    }
+    if (!value.endsWith('@ewhain.net')) {
+      return '이메일은 @ewhain.net 도메인을 가져야 합니다.';
     }
     return null;
   }

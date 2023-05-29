@@ -3,6 +3,7 @@ import 'package:ea9gu/Screens/Student/Start/stu_start.dart';
 import 'package:flutter/material.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 }
 
@@ -12,9 +13,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+        debugShowCheckedModeBanner: false,
         home: Scaffold(
-      body: First(),
-    ));
+          body: First(),
+        ));
   }
 }
 
@@ -31,12 +33,12 @@ class First extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-              Image.asset('assets/sample.jpg'),
+              Image.asset('assets/logo.png'),
               SizedBox(height: 30),
-              Text(
-                "Explore the app",
-                style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-              ),
+              // Text(
+              //   "Explore the app",
+              //   style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+              // ),
               SizedBox(height: 30),
               Container(
                   margin: EdgeInsets.all(10),

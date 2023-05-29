@@ -10,7 +10,7 @@ final InputDeco = InputDecoration(
 
 Widget buildTextFormField({
   required String hintText,
-  required String? Function(String?) validator,
+  String? Function(String?)? validator,
   void Function(String?)? onSaved,
   bool obscureText = false,
   TextEditingController? controller,

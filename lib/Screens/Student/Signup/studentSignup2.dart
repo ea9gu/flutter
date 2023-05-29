@@ -1,6 +1,6 @@
 import 'package:ea9gu/Components/back_button.dart';
 import 'package:ea9gu/Components/next_button.dart';
-import 'package:ea9gu/Screens/Student/Signup/Signup3/signup3.dart';
+import 'package:ea9gu/Screens/Student/Login/stu_login.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -20,10 +20,6 @@ class studentSignup2 extends StatelessWidget {
                 SizedBox(height: 30),
                 BackButton1(),
                 SizedBox(height: 30),
-                Center(
-                    child: Container(
-                        margin: EdgeInsets.all(25),
-                        child: Image.asset('assets/bar2.png'))),
                 Container(width: 200, child: Image.asset('assets/phone.png')),
                 SizedBox(
                   height: 30,
@@ -55,13 +51,13 @@ class studentSignup2 extends StatelessWidget {
                 )),
                 SizedBox(height: 20),
                 NextButton(
-                    text: "인증하고 계속하기",
+                    text: "인증하여 계정 생성하기",
                     onpress: () {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder: (context) {
-                            return Signup3();
+                            return stuLogin();
                           },
                         ),
                       );

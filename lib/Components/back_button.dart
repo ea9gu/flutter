@@ -7,7 +7,7 @@ class BackButton1 extends StatelessWidget {
         child: Center(
             child: OutlinedButton(
                 onPressed: () {
-                  Navigator.pop(context);
+                  Navigator.of(context).pop();
                 },
                 child: Icon(Icons.chevron_left, color: Colors.black))));
   }

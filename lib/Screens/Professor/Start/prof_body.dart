@@ -22,7 +22,7 @@ class Body extends StatelessWidget {
             "교수용",
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
-          SizedBox(height: size.height * 0.2),
+          SizedBox(height: size.height * 0.15),
           GoButton(
             text: "로그인하기",
             onpress: () {
@@ -30,7 +30,7 @@ class Body extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                   builder: (context) {
-                    return Login();
+                    return ProfLogin();
                   },
                 ),
               );
