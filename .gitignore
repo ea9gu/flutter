@@ -1,44 +1,88 @@
-# Miscellaneous
-*.class
-*.log
-*.pyc
-*.swp
-.DS_Store
-.atom/
-.buildlog/
-.history
-.svn/
-migrate_working_dir/
-
-# IntelliJ related
-*.iml
-*.ipr
-*.iws
-.idea/
-
-# The .vscode folder contains launch configuration and tasks you configure in
-# VS Code which you may wish to be included in version control, so this line
-# is commented out by default.
-#.vscode/
-
-# Flutter/Dart/Pub related
-**/doc/api/
+# Flutter/Dart specific
+**/build/
 **/ios/Flutter/.last_build_id
 .dart_tool/
 .flutter-plugins
 .flutter-plugins-dependencies
 .packages
-.pub-cache/
 .pub/
-/build/
+.pub-cache/
+.vscode/
+/.idea/
+.DS_Store
 
-# Symbolication related
-app.*.symbols
+# IDE files
+*.iml
+*.ipr
+*.iws
+.idea/
 
-# Obfuscation related
-app.*.map.json
+# Xcode files
+**.pbxuser
+**.mode1v3
+**.mode2v3
+**.perspectivev3
+**.xcworkspace/
+**.xcworkspace
+**.xcuserstate
+project.xcworkspace/
+xcuserdata/
 
-# Android Studio will place build artifacts here
-/android/app/debug
-/android/app/profile
-/android/app/release
+# Android files
+**/android/captures/
+**/android/gradle-wrapper.jar
+**/android/gradle-wrapper.properties
+**/android/local.properties
+**/android/*.iml
+**/android/app/*.iml
+**/android/.gradle/
+**/android/gradlew
+**/android/gradlew.bat
+**/android/build/
+**/android/app/build/
+**/android/app/src/*/flutter_assets/
+**/android/app/src/main/assets/flutter_assets/
+**/android/gradle/
+**/android/.idea/
+**/android/*.kotlin_module
+**/android/*.bak
+
+# iOS files
+**/ios/Flutter/App.framework/
+**/ios/Flutter/Flutter.framework/
+**/ios/Flutter/Generated.xcconfig
+**/ios/Flutter/Flutter.podspec
+**/ios/Flutter/flutter_export_environment.sh
+**/ios/Flutter/Debug.xcconfig
+**/ios/Flutter/Release.xcconfig
+**/ios/Podfile.lock
+**/ios/Flutter/App.framework
+**/ios/Flutter/Flutter.framework
+**/ios/Flutter/Flutter.podspec
+**/ios/Flutter/Generated.xcconfig
+**/ios/Flutter/flutter_export_environment.sh
+**/ios/Flutter/Debug.xcconfig
+**/ios/Flutter/Release.xcconfig
+**/ios/Flutter/App.generated.xcconfig
+**/ios/Flutter/Flutter.framework/
+**/ios/Flutter/Flutter.podspec
+**/ios/Flutter/flutter_export_environment.sh
+**/ios/Flutter/Generated.xcconfig
+**/ios/Flutter/Debug.xcconfig
+**/ios/Flutter/Release.xcconfig
+**/ios/Podfile.lock
+**/ios/Pods/
+**/ios/Runner/GeneratedPluginRegistrant.*
+
+# macOS specific files
+**/macos/Flutter/Flutter-Debug.xcconfig
+**/macos/Flutter/Flutter-Release.xcconfig
+**/macos/Flutter/Flutter-Generated.xcconfig
+**/macos/Flutter/Flutter-Generated.xcconfig
+**/macos/Flutter/AppFrameworkInfo.plist
+**/macos/Flutter/Debug.xcconfig
+**/macos/Flutter/Release.xcconfig
+
+# Flutter Web specific files
+**/web/assets/
+**/web/*.generated.*
