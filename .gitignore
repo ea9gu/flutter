@@ -1,4 +1,16 @@
 # Flutter/Dart specific
+*.class
+*.lock
+*.log
+*.pyc
+*.swp
+.DS_Store
+.atom/
+.buildlog/
+.history
+.svn/
+
+
 **/build/
 **/ios/Flutter/.last_build_id
 .dart_tool/
@@ -9,7 +21,6 @@
 .pub-cache/
 .vscode/
 /.idea/
-.DS_Store
 
 # IDE files
 *.iml
