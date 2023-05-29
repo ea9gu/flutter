@@ -8,6 +8,48 @@
       "languageVersion": "2.18"
     },
     {
+      "name": "audioplayers",
+      "rootUri": "file:///Users/kimjuyeon/.pub-cache/hosted/pub.dev/audioplayers-4.0.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
+    },
+    {
+      "name": "audioplayers_android",
+      "rootUri": "file:///Users/kimjuyeon/.pub-cache/hosted/pub.dev/audioplayers_android-3.0.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
+    },
+    {
+      "name": "audioplayers_darwin",
+      "rootUri": "file:///Users/kimjuyeon/.pub-cache/hosted/pub.dev/audioplayers_darwin-4.0.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
+    },
+    {
+      "name": "audioplayers_linux",
+      "rootUri": "file:///Users/kimjuyeon/.pub-cache/hosted/pub.dev/audioplayers_linux-2.0.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
+    },
+    {
+      "name": "audioplayers_platform_interface",
+      "rootUri": "file:///Users/kimjuyeon/.pub-cache/hosted/pub.dev/audioplayers_platform_interface-5.0.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
+    },
+    {
+      "name": "audioplayers_web",
+      "rootUri": "file:///Users/kimjuyeon/.pub-cache/hosted/pub.dev/audioplayers_web-3.0.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
+    },
+    {
+      "name": "audioplayers_windows",
+      "rootUri": "file:///Users/kimjuyeon/.pub-cache/hosted/pub.dev/audioplayers_windows-2.0.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
+    },
+    {
       "name": "boolean_selector",
       "rootUri": "file:///Users/kimjuyeon/.pub-cache/hosted/pub.dev/boolean_selector-2.1.1",
       "packageUri": "lib/",
@@ -30,6 +72,12 @@
       "rootUri": "file:///Users/kimjuyeon/.pub-cache/hosted/pub.dev/collection-1.17.1",
       "packageUri": "lib/",
       "languageVersion": "2.18"
+    },
+    {
+      "name": "crypto",
+      "rootUri": "file:///Users/kimjuyeon/.pub-cache/hosted/pub.dev/crypto-3.0.3",
+      "packageUri": "lib/",
+      "languageVersion": "2.19"
     },
     {
       "name": "cupertino_icons",
@@ -56,6 +104,24 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "ffi",
+      "rootUri": "file:///Users/kimjuyeon/.pub-cache/hosted/pub.dev/ffi-1.2.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "file",
+      "rootUri": "file:///Users/kimjuyeon/.pub-cache/hosted/pub.dev/file-6.1.4",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "file_picker",
+      "rootUri": "file:///Users/kimjuyeon/.pub-cache/hosted/pub.dev/file_picker-4.6.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "flutter",
       "rootUri": "file:///opt/homebrew/Caskroom/flutter/3.3.8/flutter/packages/flutter",
       "packageUri": "lib/",
@@ -66,6 +132,30 @@
       "rootUri": "file:///Users/kimjuyeon/.pub-cache/hosted/pub.dev/flutter_lints-2.0.1",
       "packageUri": "lib/",
       "languageVersion": "2.17"
+    },
+    {
+      "name": "flutter_plugin_android_lifecycle",
+      "rootUri": "file:///Users/kimjuyeon/.pub-cache/hosted/pub.dev/flutter_plugin_android_lifecycle-2.0.15",
+      "packageUri": "lib/",
+      "languageVersion": "2.18"
+    },
+    {
+      "name": "flutter_sound",
+      "rootUri": "file:///Users/kimjuyeon/.pub-cache/hosted/pub.dev/flutter_sound-9.2.13",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "flutter_sound_platform_interface",
+      "rootUri": "file:///Users/kimjuyeon/.pub-cache/hosted/pub.dev/flutter_sound_platform_interface-9.2.13",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "flutter_sound_web",
+      "rootUri": "file:///Users/kimjuyeon/.pub-cache/hosted/pub.dev/flutter_sound_web-9.2.13",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
     },
     {
       "name": "flutter_svg",
@@ -80,6 +170,30 @@
       "languageVersion": "3.0"
     },
     {
+      "name": "flutter_web_plugins",
+      "rootUri": "file:///opt/homebrew/Caskroom/flutter/3.3.8/flutter/packages/flutter_web_plugins",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
+    },
+    {
+      "name": "http",
+      "rootUri": "file:///Users/kimjuyeon/.pub-cache/hosted/pub.dev/http-0.13.6",
+      "packageUri": "lib/",
+      "languageVersion": "2.19"
+    },
+    {
+      "name": "http_parser",
+      "rootUri": "file:///Users/kimjuyeon/.pub-cache/hosted/pub.dev/http_parser-4.0.2",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "intl",
+      "rootUri": "file:///Users/kimjuyeon/.pub-cache/hosted/pub.dev/intl-0.17.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "js",
       "rootUri": "file:///Users/kimjuyeon/.pub-cache/hosted/pub.dev/js-0.6.7",
       "packageUri": "lib/",
@@ -87,9 +201,15 @@
     },
     {
       "name": "lints",
-      "rootUri": "file:///Users/kimjuyeon/.pub-cache/hosted/pub.dev/lints-2.0.1",
+      "rootUri": "file:///Users/kimjuyeon/.pub-cache/hosted/pub.dev/lints-2.1.0",
       "packageUri": "lib/",
-      "languageVersion": "2.17"
+      "languageVersion": "3.0"
+    },
+    {
+      "name": "logger",
+      "rootUri": "file:///Users/kimjuyeon/.pub-cache/hosted/pub.dev/logger-1.3.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
     },
     {
       "name": "matcher",
@@ -106,6 +226,12 @@
     {
       "name": "meta",
       "rootUri": "file:///Users/kimjuyeon/.pub-cache/hosted/pub.dev/meta-1.9.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "nested",
+      "rootUri": "file:///Users/kimjuyeon/.pub-cache/hosted/pub.dev/nested-1.0.0",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -128,16 +254,106 @@
       "languageVersion": "2.12"
     },
     {
-      "name": "petitparser",
-      "rootUri": "file:///Users/kimjuyeon/.pub-cache/hosted/pub.dev/petitparser-5.1.0",
+      "name": "path_provider",
+      "rootUri": "file:///Users/kimjuyeon/.pub-cache/hosted/pub.dev/path_provider-2.0.15",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
+    },
+    {
+      "name": "path_provider_android",
+      "rootUri": "file:///Users/kimjuyeon/.pub-cache/hosted/pub.dev/path_provider_android-2.0.27",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
+    },
+    {
+      "name": "path_provider_foundation",
+      "rootUri": "file:///Users/kimjuyeon/.pub-cache/hosted/pub.dev/path_provider_foundation-2.2.3",
       "packageUri": "lib/",
       "languageVersion": "2.18"
+    },
+    {
+      "name": "path_provider_linux",
+      "rootUri": "file:///Users/kimjuyeon/.pub-cache/hosted/pub.dev/path_provider_linux-2.1.11",
+      "packageUri": "lib/",
+      "languageVersion": "2.18"
+    },
+    {
+      "name": "path_provider_platform_interface",
+      "rootUri": "file:///Users/kimjuyeon/.pub-cache/hosted/pub.dev/path_provider_platform_interface-2.0.6",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "path_provider_windows",
+      "rootUri": "file:///Users/kimjuyeon/.pub-cache/hosted/pub.dev/path_provider_windows-2.0.7",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "permission_handler",
+      "rootUri": "file:///Users/kimjuyeon/.pub-cache/hosted/pub.dev/permission_handler-10.2.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.15"
+    },
+    {
+      "name": "permission_handler_android",
+      "rootUri": "file:///Users/kimjuyeon/.pub-cache/hosted/pub.dev/permission_handler_android-10.2.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.15"
+    },
+    {
+      "name": "permission_handler_apple",
+      "rootUri": "file:///Users/kimjuyeon/.pub-cache/hosted/pub.dev/permission_handler_apple-9.0.8",
+      "packageUri": "lib/",
+      "languageVersion": "2.15"
+    },
+    {
+      "name": "permission_handler_platform_interface",
+      "rootUri": "file:///Users/kimjuyeon/.pub-cache/hosted/pub.dev/permission_handler_platform_interface-3.9.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.14"
+    },
+    {
+      "name": "permission_handler_windows",
+      "rootUri": "file:///Users/kimjuyeon/.pub-cache/hosted/pub.dev/permission_handler_windows-0.1.2",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "petitparser",
+      "rootUri": "file:///Users/kimjuyeon/.pub-cache/hosted/pub.dev/petitparser-5.4.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.19"
+    },
+    {
+      "name": "platform",
+      "rootUri": "file:///Users/kimjuyeon/.pub-cache/hosted/pub.dev/platform-3.1.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
     },
     {
       "name": "plugin_platform_interface",
       "rootUri": "file:///Users/kimjuyeon/.pub-cache/hosted/pub.dev/plugin_platform_interface-2.1.4",
       "packageUri": "lib/",
       "languageVersion": "2.17"
+    },
+    {
+      "name": "process",
+      "rootUri": "file:///Users/kimjuyeon/.pub-cache/hosted/pub.dev/process-4.2.4",
+      "packageUri": "lib/",
+      "languageVersion": "2.14"
+    },
+    {
+      "name": "provider",
+      "rootUri": "file:///Users/kimjuyeon/.pub-cache/hosted/pub.dev/provider-6.0.5",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "recase",
+      "rootUri": "file:///Users/kimjuyeon/.pub-cache/hosted/pub.dev/recase-4.1.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
     },
     {
       "name": "sky_engine",
@@ -170,6 +386,12 @@
       "languageVersion": "2.18"
     },
     {
+      "name": "synchronized",
+      "rootUri": "file:///Users/kimjuyeon/.pub-cache/hosted/pub.dev/synchronized-3.1.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.18"
+    },
+    {
       "name": "term_glyph",
       "rootUri": "file:///Users/kimjuyeon/.pub-cache/hosted/pub.dev/term_glyph-1.2.1",
       "packageUri": "lib/",
@@ -182,16 +404,40 @@
       "languageVersion": "2.18"
     },
     {
+      "name": "typed_data",
+      "rootUri": "file:///Users/kimjuyeon/.pub-cache/hosted/pub.dev/typed_data-1.3.2",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
+    },
+    {
+      "name": "uuid",
+      "rootUri": "file:///Users/kimjuyeon/.pub-cache/hosted/pub.dev/uuid-3.0.7",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "vector_math",
       "rootUri": "file:///Users/kimjuyeon/.pub-cache/hosted/pub.dev/vector_math-2.1.4",
       "packageUri": "lib/",
       "languageVersion": "2.14"
     },
     {
-      "name": "xml",
-      "rootUri": "file:///Users/kimjuyeon/.pub-cache/hosted/pub.dev/xml-6.2.2",
+      "name": "win32",
+      "rootUri": "file:///Users/kimjuyeon/.pub-cache/hosted/pub.dev/win32-2.6.1",
       "packageUri": "lib/",
-      "languageVersion": "2.18"
+      "languageVersion": "2.17"
+    },
+    {
+      "name": "xdg_directories",
+      "rootUri": "file:///Users/kimjuyeon/.pub-cache/hosted/pub.dev/xdg_directories-1.0.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
+    },
+    {
+      "name": "xml",
+      "rootUri": "file:///Users/kimjuyeon/.pub-cache/hosted/pub.dev/xml-6.3.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.19"
     },
     {
       "name": "ea9gu",
@@ -200,7 +446,7 @@
       "languageVersion": "2.18"
     }
   ],
-  "generated": "2023-05-29T04:20:08.799421Z",
+  "generated": "2023-05-29T04:28:26.984612Z",
   "generator": "pub",
   "generatorVersion": "3.1.0-63.1.beta"
 }
