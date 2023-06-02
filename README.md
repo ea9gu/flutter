@@ -9,7 +9,7 @@
 
 
 ## 💫 서비스 흐름도
-![image](https://github.com/ea9gu/flutter/assets/86945989/c3262f2d-2f95-4065-b411-c1c7513132c3)
+![image](https://github.com/ea9gu/flutter/assets/86945989/80f71a78-dab0-42b1-882d-ea5ffc9e8b40)
 
 
 ## 💫 구현 기능
