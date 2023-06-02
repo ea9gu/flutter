@@ -17,27 +17,29 @@
 + 로그인 & 회원가입
 
 + 출석체크
-![image](https://github.com/ea9gu/flutter/assets/86945989/ccf22baa-68d3-4df9-8a51-9605b20b93ee)
+![image](https://github.com/ea9gu/flutter/assets/86945989/da68bdff-9724-4ed6-882d-f66e7bb90590)
 
 + 출석부 조회(날짜별, 학생별)
-![image](https://github.com/ea9gu/flutter/assets/86945989/15841941-3f62-4af8-b8eb-b75012722b26)
+![image](https://github.com/ea9gu/flutter/assets/86945989/50847a15-c976-4d89-81e6-a56935b219f2)
 
 + 강좌추가
-![image](https://github.com/ea9gu/flutter/assets/86945989/39b990f5-beaf-4a0f-8fd9-f54e5730284a)
+![image](https://github.com/ea9gu/flutter/assets/86945989/a54f468c-059b-4c37-a13a-6ca50d52317d)
 
 # 학생용
 + 로그인 & 회원가입
 
 + 출석체크
-![image](https://github.com/ea9gu/flutter/assets/86945989/cc2c7b2c-f4eb-4109-b41a-91afb8068787)
+![image](https://github.com/ea9gu/flutter/assets/86945989/fc4b0255-b643-4f09-acc5-b01841ee9d4d)
 
 + 출석부 조회(강좌별)
 
 + 기기등록
-![image](https://github.com/ea9gu/flutter/assets/86945989/cac59544-7174-4f28-b801-3d5f9b050acb)
+![image](https://github.com/ea9gu/flutter/assets/86945989/f8baf949-fb46-49d6-bd39-a13243da4df1)
 
 
 ## 💫 시연 영상
+https://youtu.be/GZO5QiaqNIw
+
 
 ### 👋 Team Ea9gu
 
