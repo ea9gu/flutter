@@ -9,7 +9,7 @@
 
 
 ## 💫 서비스 흐름도
-![image](https://github.com/ea9gu/flutter/assets/86945989/80f71a78-dab0-42b1-882d-ea5ffc9e8b40)
+![image](https://github.com/ea9gu/flutter/assets/86945989/c3262f2d-2f95-4065-b411-c1c7513132c3)
 
 
 ## 💫 구현 기능
@@ -17,6 +17,7 @@
 + 로그인 & 회원가입
 
 + 출석체크
+
 ![image](https://github.com/ea9gu/flutter/assets/86945989/da68bdff-9724-4ed6-882d-f66e7bb90590)
 
 + 출석부 조회(날짜별, 학생별)
