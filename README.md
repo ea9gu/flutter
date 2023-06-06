@@ -25,7 +25,7 @@
 
 + 출석체크
 
-![image](https://github.com/ea9gu/flutter/assets/86945989/da68bdff-9724-4ed6-882d-f66e7bb90590)
+![image](https://github.com/ea9gu/flutter/assets/86945989/d89ffd50-f3c6-4dcc-a961-0f46a610dc69)
 
 <br>
 
