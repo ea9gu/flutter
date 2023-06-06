@@ -12,7 +12,7 @@
 <br>
 
 ## 💫 서비스 흐름도
-![image](https://github.com/ea9gu/flutter/assets/86945989/80f71a78-dab0-42b1-882d-ea5ffc9e8b40)
+![image](https://github.com/ea9gu/flutter/assets/86945989/0938a18a-5359-4bb2-960c-f3c02d421cc4)
 
 <br>
 
@@ -31,13 +31,13 @@
 
 + 출석부 조회(날짜별, 학생별)
 
-![image](https://github.com/ea9gu/flutter/assets/86945989/50847a15-c976-4d89-81e6-a56935b219f2)
+![image](https://github.com/ea9gu/flutter/assets/86945989/2a617fe5-b89a-43f2-9ac9-24764b3329a5)
 
 <br>
 
 + 강좌추가
 
-![image](https://github.com/ea9gu/flutter/assets/86945989/a54f468c-059b-4c37-a13a-6ca50d52317d)
+![image](https://github.com/ea9gu/flutter/assets/86945989/99b89a4b-7d0b-41a6-b14c-25f38e386cb6)
 
 <br>
 
@@ -49,7 +49,7 @@
 
 + 출석체크
 
-![image](https://github.com/ea9gu/flutter/assets/86945989/fc4b0255-b643-4f09-acc5-b01841ee9d4d)
+![image](https://github.com/ea9gu/flutter/assets/86945989/7901f8e3-adbe-4ac2-bc61-8de04d7e3632)
 
 <br>
 
@@ -59,7 +59,7 @@
 
 + 기기등록
 
-![image](https://github.com/ea9gu/flutter/assets/86945989/f8baf949-fb46-49d6-bd39-a13243da4df1)
+![image](https://github.com/ea9gu/flutter/assets/86945989/5b2892fc-22d1-4c45-bb05-ba0fca1c5fdb)
 
 <br>
 
